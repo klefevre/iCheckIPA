@@ -6,6 +6,7 @@ var url = require('url');
 var zip = require('node-native-zip');
 var AdmZip = require('adm-zip');
 var openssl = require('openssl-wrapper');
+var crypto = require('crypto');
 
 
 //Set the current_tab variable to the home tab : dropzone.
@@ -42,7 +43,12 @@ function analyseProvisionning(path) {
 
 //Function for when the page is ready.
 function onReady() {
-	
+
+    var ciphers = crypto.getCiphers();
+    console.log(ciphers);
+    var hashes = crypto.getHashes();
+    console.log(hashes);
+
 	//Load the settings and start the backend webserver.
 	loadSettings();
 	// start_server();

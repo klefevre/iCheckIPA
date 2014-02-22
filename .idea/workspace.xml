@@ -32,19 +32,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="frontend.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="frontend.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/frontend.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="39" selection-start="2318" selection-end="2370" vertical-scroll-proportion="-10.52" vertical-offset="802" max-vertical-offset="3525">
+            <state line="46" column="26" selection-start="1370" selection-end="1370" vertical-scroll-proportion="0.57481754" vertical-offset="375" max-vertical-offset="3615">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="53" selection-start="271" selection-end="271" vertical-scroll-proportion="0.30716723" vertical-offset="0" max-vertical-offset="586">
+            <state line="12" column="21" selection-start="239" selection-end="239" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -78,11 +78,11 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/resources/js/frontend.js" />
         <option value="$PROJECT_DIR$/resources/application.html" />
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/resources/js/frontend.js" />
       </list>
     </option>
   </component>
@@ -299,13 +299,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/frontend.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="39" selection-start="2318" selection-end="2370" vertical-scroll-proportion="-10.52" vertical-offset="802" max-vertical-offset="3525">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="18" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
@@ -322,7 +315,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="53" selection-start="271" selection-end="271" vertical-scroll-proportion="0.30716723" vertical-offset="0" max-vertical-offset="586">
+        <state line="12" column="21" selection-start="239" selection-end="239" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/frontend.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="26" selection-start="1370" selection-end="1370" vertical-scroll-proportion="0.57481754" vertical-offset="375" max-vertical-offset="3615">
           <folding />
         </state>
       </provider>
