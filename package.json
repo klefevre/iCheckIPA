@@ -1,0 +1,15 @@
+{
+	"version" : "0.0.1",
+	"main" : "resources/application.html",
+	"name" : "Dropzone",
+	"window" : {
+		"title" : "Dropzone",
+		"toolbar" : true,
+		"frame" : true,
+		"position" : "mouse",
+		"max_width" : 685,
+		"min_width" : 685,
+		"max_height" : 405,
+		"min_height" : 405
+	}
+}

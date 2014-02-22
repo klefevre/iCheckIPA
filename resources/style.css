@@ -1,0 +1,139 @@
+/* Generic styles */
+
+html {
+	-webkit-user-select:none;	
+}
+
+body {
+	background-color:#333;
+	color:#FFF;
+	font-family:sans-serif;
+	padding:0px;
+	margin:0px;
+	background-image:url('img/txture.png');
+}
+/* Header Styles */
+
+header {
+	background-color: #111;
+	padding: 0px 20px 0px 20px;
+	height: 55px;
+	border-bottom: solid 2px #000;
+	box-shadow: 0px 0px 120px 20px #000;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 0;
+	-webkit-app-region: drag;
+}
+
+header h1 {
+    float:left;
+    line-height: 13px;
+}
+
+header ul {
+    right: -20px;
+    list-style:none;
+    float: right;
+    font-size: 43px;
+    position:relative;
+    top:-45px;
+}
+
+header ul li:first-child {
+    border-left:none;
+}
+
+header ul li:last-child {
+    border-right:none;
+}
+
+header ul li {
+    float:left;
+    border-left:solid 1px #000;
+    border-right:solid 1px #222;
+    padding: 8px 10px 5px 10px;   
+}
+
+header ul li:hover {
+    background-color:#000;
+}
+
+header ul li i {
+	pointer-events:none;
+}
+
+/* Section styles */
+
+section {
+	margin:20px;
+	margin-top:80px;
+    margin-bottom:0px;
+    
+	height: 300px;
+	position: relative;
+	z-index: 1;
+}
+
+section h1, h2, h3, h4 {
+    text-align: left;
+}
+
+section div#panel {
+	background-color:#222;
+	border:solid 2px #111;
+	border-radius:3px;	
+	padding:1px 20px 1px 20px
+}
+
+section div#panel ul {
+    padding-left:0px;
+    list-style:none;
+}
+
+section div#panel ul li {
+    margin-bottom: 5px;
+    margin-top:15px;
+}
+
+section div#panel ul sup {
+    color:#666;
+}
+
+section#dropzone {
+    border:dashed 4px #BB381E;
+    border-radius:4px;
+}
+
+section#dropzone div#drop_message {
+	font-size:12px;
+	text-align:center;
+	width:240px;
+	margin: 136px auto 0 auto;
+	color: #666;
+	text-shadow: 0px -1px 0px #000;
+}
+
+/* Alert styles */
+
+div#alert {
+    background-color:#7F0000;
+    border-bottom:solid 4px #4C0000;
+    border-left:solid 2px #4C0000 !important;
+    border-right:solid 2px #4C0000 !important;
+    border-top:none;
+    border-bottom-left-radius:10px;
+    text-align:center;
+    border-bottom-right-radius:10px;
+    height:20px;
+    position:absolute;
+    width:300px;
+    top:57px;
+    padding:5px;
+    z-index:2;
+    left:50%;
+    margin-left:-150px;
+    display:none;
+}

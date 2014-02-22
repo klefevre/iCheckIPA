@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Dropzone</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="fonts/fontawesome.css" />
+		<script type="text/javascript">
+			window.ondragover = function(e) { e.preventDefault(); return false };
+			window.ondrop = function(e) { e.preventDefault(); return false };
+		</script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="js/backend.js"></script> -->
+		<script type="text/javascript" src="js/frontend.js"></script>
+	</head>
+	
+	<body onload="onReady()">
+		<div id="alert">
+			This is a test alert.
+		</div>
+		<header>
+			<h1>iCheckIPA</h1>
+			
+			<ul id="menubar">
+				<li class="dropzone"><i class="icon-home"> </i></li>
+				<li class="connection"><i class="icon-cog"> </i></li>
+				<!--<li class="options">&#9997;</li>-->
+			</ul>
+		</header>
+		
+		<section id="dropzone">
+			<div id="drop_message">Drop files in here to instantly share them!</div>
+		</section>
+		
+		<section style="display:none" id="connection">
+			<h3>Options - Dropzone</h3>
+			
+			<div id="panel">
+				<ul>
+					<li>Port : <input id="port_setting" type="text"/></li>
+					<sup>If the port is =< 1024, root or admin permissions are required to run this program.</sup>
+					<li>Dropzone name : <input id="name_setting" type="text"/></li>
+					<sup>This name will be shown to your friends. (e.g Shawn's Dropzone)</sup>
+					<br>
+					<input type="button" value="Save" onclick="extractSettings()"><input type="button" value="Restart Server" onclick="restart_server()" />
+				</ul>
+			</div>
+		</section>
+	</body>
+</html>
