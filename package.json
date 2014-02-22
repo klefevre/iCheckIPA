@@ -1,10 +1,10 @@
 {
 	"version" : "0.0.1",
 	"main" : "resources/application.html",
-	"name" : "Dropzone",
+	"name" : "iCheckIPA",
 	"window" : {
 		"title" : "Dropzone",
-		"toolbar" : true,
+		"toolbar" : false,
 		"frame" : true,
 		"position" : "mouse",
 		"max_width" : 685,
