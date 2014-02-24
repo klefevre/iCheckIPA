@@ -67,6 +67,8 @@ header ul li i {
 
 /* Section styles */
 
+
+
 section {
 	margin:20px;
 	margin-top:80px;
@@ -102,9 +104,21 @@ section div#panel ul sup {
     color:#666;
 }
 
+section#results {
+    float: left;
+    background-color: orange;
+}
+
+section#results ul {
+    list-style: none;
+    margin: 0; padding: 0;
+}
+
 section#dropzone {
     border:dashed 4px #BB381E;
     border-radius:4px;
+    width: 200px;
+    float: left;
 }
 
 section#dropzone div#drop_message {

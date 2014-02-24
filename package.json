@@ -1,15 +1,15 @@
 {
 	"version" : "0.0.1",
-	"main" : "resources/application.html",
+	"main" : "app/application.html",
 	"name" : "iCheckIPA",
 	"window" : {
-		"title" : "Dropzone",
+		"title" : "iCheckIPA",
 		"toolbar" : false,
 		"frame" : true,
 		"position" : "mouse",
-		"max_width" : 685,
-		"min_width" : 685,
-		"max_height" : 405,
-		"min_height" : 405
+		"min_width" : 768,
+		"min_height" : 685,
+		"max_width" : 768,
+		"max_height" : 685
 	}
 }

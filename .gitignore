@@ -6,3 +6,4 @@ dist
 .idea
 app/bower_components
 test/bower_components
+test

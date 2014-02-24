@@ -1,12 +1,11 @@
-var http = require('http');
-var fs = require('fs');
-var gui = require('nw.gui');
-var os = require('os');
-var url = require('url');
-var zip = require('node-native-zip');
-var AdmZip = require('adm-zip');
-var openssl = require('openssl-wrapper');
-var crypto = require('crypto');
+var http = require('http'),
+    fs = require('fs'),
+    gui = require('nw.gui'),
+    os = require('os'),
+    url = require('url'),
+    AdmZip = require('adm-zip'),
+    plist = require('plist'),
+    exec = require('child_process').exec;
 
 
 //Set the current_tab variable to the home tab : dropzone.
@@ -15,9 +14,16 @@ var current_tab = 'dropzone';
 var win = gui.Window.get();
 win.showDevTools();
 
+function resetUI () {
+    var $list = $('#results ul');
+
+    $list.empty();
+}
+
 function AppInfo () {
     this.name = "";
     this.environnement = "";
+    this
 //    getInfo: function () {
 //        return this.color + ' ' + this.type + ' apple';
 //    }
@@ -28,26 +34,66 @@ function extensionOf(filename) {
     return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
 }
 
-function analyseProvisionning(path) {
-    console.info('Analysing provisionning', path);
-//    var Q = require('q');
 
-     console.log('result=', openssl.qExec('cms.verify', path, {inform: 'DER', noverify: true}));
-//        .then(function decryptEnvelopedData() {
-//            return opensslExec('cms.decrypt', envelopedData, {inform: 'DER', recip: __dirname + '/myCertificate.crt', inkey: __dirname + '/myCertificate.key'})
-//        })
-//        .then(function debugOutput(data) {
-//            console.log(data);
-//        })
+function copyFile(source, target, cb) {
+    var cbCalled = false;
+
+    var rd = fs.createReadStream(source);
+    rd.on("error", function(err) {
+        done(err);
+    });
+    var wr = fs.createWriteStream(target);
+    wr.on("error", function(err) {
+        done(err);
+    });
+    wr.on("close", function(ex) {
+        done(null);
+    });
+    rd.pipe(wr);
+
+    function done(err) {
+        if (!cbCalled) {
+            cb(err);
+            cbCalled = true;
+        }
+    }
+}
+
+function displayResults(results) {
+    var $list = $('#results ul');
+
+    results['ProvisionedDevices'].some( function(item) {
+        $list.append(
+            $('<li>').append(
+                $('<span>').attr('class', 'tab').append(item)
+        ));
+    });
+
+}
+
+function analyseFailed(err) {
+    alert(err);
+}
+
+function analyseProvisionning(path) {
+    console.info('----------------------------------');
+    console.info('Analysing provisionning', path);
+
+    // TODO: Find a way to NOT use exec -> EVIL. Maybe we may achieve it using crypto, node-forge or something else ?
+    var child = exec('openssl smime -inform DER -verify -in ' + path,
+        function (error, stdout, stderr) {
+            if (error === null) {
+                var result = plist.parseStringSync(stdout);
+                console.log('result =', result);
+                displayResults(result);
+            } else {
+                console.error('exec error: ' + error);
+            }
+        });
 }
 
 //Function for when the page is ready.
 function onReady() {
-
-    var ciphers = crypto.getCiphers();
-    console.log(ciphers);
-    var hashes = crypto.getHashes();
-    console.log(hashes);
 
 	//Load the settings and start the backend webserver.
 	loadSettings();
@@ -58,11 +104,13 @@ function onReady() {
 	
 	//Event for when the client drops file in the dropzone.
 	dropzone.ondrop = function (e) {
-		
-		//Make sure that the window doesn't show the file in plain text.
-		e.preventDefault();
-		
-		//Change the inside message of the dropzone to 'Drop files in here to instantly share them!'
+
+        //Make sure that the window doesn't show the file in plain text.
+        e.preventDefault();
+
+        resetUI();
+
+        //Change the inside message of the dropzone to 'Drop files in here to instantly share them!'
 		document.getElementById('drop_message').innerHTML = 'Drop files in here to check your IPA';
 		
 		//Make sure that all of the files that are dropped in get linked inside the ./files/ folder inside the application.
@@ -74,6 +122,7 @@ function onReady() {
 
             console.log('Path is', e.dataTransfer.files[i].path);
             console.log('Filename is', filename);
+
 
             // TODO: HERE WE SHOULD CHECK EXTENSION
 
@@ -87,31 +136,47 @@ function onReady() {
                 fs.linkSync(e.dataTransfer.files[i].path, linkPath);
             }
 
+            console.info('-----------------------------------');
             // Check file extension
             switch (extensionOf(filename)) {
                 case 'ipa': // Unzip .ipa, extract the .mobileprovision, and analyse it
                     console.info('.ipa file... processing...');
 
-                    var zip = new AdmZip(linkPath);
-                    zip.getEntries().some(function(zipEntry) {
-                        if (extensionOf(zipEntry.entryName) === 'mobileprovision') {
-                            console.log(zipEntry.toString());
-                            zip.extractEntryTo(zipEntry.entryName, tmpDir, false, true);
-                            return analyseProvisionning(tmpDir + zipEntry.name);
+                    var zip = new AdmZip(linkPath),
+                        entries = zip.getEntries();
+
+                    for (var i = 0; i < entries.length; ++i) {
+                        if (extensionOf(entries[i].entryName) === 'mobileprovision') {
+                            zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
+                            return analyseProvisionning(tmpDir + '/' + entries[i].name);
                         }
-                    });
-                    break;
+                    }
+                    return analyseFailed('No provisionning found in ' + entries[i].name);
+
                 case 'app': // Read the .app, copy the .mobileprovision, and analyse it
                     console.info('.app file... processing...');
-                    fs.readdirSync(tmpDir).some(function(file) {
-                        if (extensionOf(file) === 'mobileprovision') {
-                            console.log('Founded ', file);
-                            fs.copyFile(file, tmpDir, function(e) {
-                                return analyseProvisionning(tmpDir + '/embedded.mobileprovision');
+
+                    // We check only at the root of .app
+                    var files = fs.readdirSync(linkPath);
+
+                    for (var i = 0; i < files.length; ++i) {
+
+                        if (extensionOf(files[i]) === 'mobileprovision') {
+                            // TODO: Check stream creation errors
+                            console.log('rStream =', linkPath + '/' + files[i]);
+                            console.log('wStream =', tmpDir + '/' + files[i]);
+
+                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function(err) {
+                                if (err === null) {
+                                    console.log('FINAAAAAL', tmpDir + '/' + files[i]);
+                                    return analyseProvisionning(tmpDir + '/' + files[i]);
+                                } else {
+                                    return analyseFailed('Error while copying provisionning :', err);
+                                }
                             });
                         }
-                    });
-                    break;
+                    }
+
                 case 'mobileprovision': // Just analyse the .mobileprovision
                     console.info('.mobileprovision file... processing...');
                     analyseProvisionning(linkPath);
@@ -120,13 +185,6 @@ function onReady() {
                      alert('FU !');
                     return;
             }
-
-            // FOR IPA ONLY
-            // Unzip IPA -> Payload (dir) -> *.app (dir) -> embedded.mobileprovision
-//            fs.createReadStream(linkPath).pipe(unzip.Extract({
-//                path: dirPath + '/unzipped'
-//            }));
-
 
 			//In windows, copy the file to the directory if it's another system, create a symbolic link.
 			// if (os.platform() != 'win32') {
