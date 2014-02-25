@@ -8,9 +8,8 @@ body {
 	background-color:#333;
 	color:#FFF;
 	font-family:sans-serif;
-	padding:0px;
-	margin:0px;
-	background-image:url('img/txture.png');
+	padding:0; margin:0;
+	/*background-image:url('img/txture.png');*/
 }
 /* Header Styles */
 
@@ -114,14 +113,23 @@ section#results ul {
     margin: 0; padding: 0;
 }
 
-section#dropzone {
+.show-grid [class^=col-] {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #eee;
+    background-color: rgba(86,61,124,.15);
+    border: 1px solid #ddd;
+    border: 1px solid rgba(86,61,124,.2);
+}
+
+section.dropzone {
     border:dashed 4px #BB381E;
     border-radius:4px;
     width: 200px;
     float: left;
 }
 
-section#dropzone div#drop_message {
+section.dropzone div.drop_message {
 	font-size:12px;
 	text-align:center;
 	width:240px;

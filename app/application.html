@@ -1,40 +1,75 @@
-<html>
-	<head>
+<html lang="en">
+    <head>
 		<meta charset="utf-8"/>
-		<title>Dropzone</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>iCheckIPA</title>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="fonts/fontawesome.css" />
 		<script type="text/javascript">
 			window.ondragover = function(e) { e.preventDefault(); return false };
 			window.ondrop = function(e) { e.preventDefault(); return false };
 		</script>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<!-- <script type="text/javascript" src="js/backend.js"></script> -->
-		<script type="text/javascript" src="js/frontend.js"></script>
-	</head>
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" ret="stylesheet">
+    </head>
 	
 	<body onload="onReady()">
 		<div id="alert">
 			This is a test alert.
 		</div>
-		<header>
-			<h1>iCheckIPA</h1>
-			
-			<ul id="menubar">
-				<li class="dropzone"><i class="icon-home"> </i></li>
-				<li class="connection"><i class="icon-cog"> </i></li>
-				<!--<li class="options">&#9997;</li>-->
-			</ul>
-		</header>
+		<!--<header>-->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">iCheckIPA</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="./">Default</a></li>
+                            <li><a href="../navbar-static-top/">Static top</a></li>
+                            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </div>
+            <div class="container-fluid">
+                <div class="row show-grid">
+                    <div class="col-xs-5">
+                        <section id="dropzone" class="dropzone">
+                            <div class="drop_message">Drop your ipa/app or provisionning here</div>
+                        </section>
+                    </div>
+                    <div class="col-xs-7">.col-md-4</div>
+                </div>
+            </div>
 
-        <div id="container">
-		    <section id="dropzone">
-			    <div id="drop_message">Drop files in here to instantly share them!</div>
-		    </section>
-            <section id="results">
-                <ul></ul>
-            </section>
-        </div>
+					<!--<h1>iCheckIPA</h1>-->
+			<!---->
+			<!--<ul id="menubar">-->
+				<!--<li class="dropzone"><i class="icon-home"> </i></li>-->
+				<!--<li class="connection"><i class="icon-cog"> </i></li>-->
+				<!--&lt;!&ndash;<li class="options">&#9997;</li>&ndash;&gt;-->
+			<!--</ul>-->
+		<!--</header>-->
+
+        <!--<section id="left_content">-->
+            <!--<div id="container">-->
+
+                <!--<section id="certif_dropzone" class="dropzone">-->
+                    <!--<div class="drop_message">Drop your p12 certificate here</div>-->
+                <!--</section>-->
+        <!--</div>-->
+        <!--</section>-->
+
+        <!--<section id="right_content">-->
+
+        <!--</section>-->
 
 		<section style="display:none" id="connection">
 			<h3>Options - Dropzone</h3>
@@ -50,5 +85,8 @@
 				</ul>
 			</div>
 		</section>
-	</body>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="js/frontend.js"></script>
+    </body>
 </html>

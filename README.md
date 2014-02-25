@@ -1,5 +1,7 @@
 ## Introduction
 
+> This project is currently a work in progress <
+
 iCheckIPA is a tool who check an iOS provisionning profile
 
 ## Features

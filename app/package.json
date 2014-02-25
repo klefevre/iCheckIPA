@@ -1,0 +1,19 @@
+{
+	"name" : "iCheckIPA",
+	"main" : "application.html",
+	"version" : "0.0.1",
+    "single-instance": true,
+    "window" : {
+		"title" : "iCheckIPA",
+		"toolbar" : true,
+		"frame" : true,
+		"position" : "mouse",
+		"width" : 768,
+        "height" : 685
+//        "min_width" : 768,
+//		"min_height" : 685,
+//		"max_width" : 768,
+//		"max_height" : 685
+	},
+    "chromium-args": "--child-clean-exit"
+}

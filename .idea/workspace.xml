@@ -2,28 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e867edd-9503-4a20-b1ac-00ece08a4861" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/application.html" afterPath="$PROJECT_DIR$/app/application.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/app/fonts/fontawesome-webfont.ttf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/fonts/fontawesome.css" afterPath="$PROJECT_DIR$/app/fonts/fontawesome.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/img/binding.png" afterPath="$PROJECT_DIR$/app/img/binding.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/img/txture.png" afterPath="$PROJECT_DIR$/app/img/txture.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/img/txture_@2X.png" afterPath="$PROJECT_DIR$/app/img/txture_@2X.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/js/frontend.js" afterPath="$PROJECT_DIR$/app/js/frontend.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/js/jquery.min.js" afterPath="$PROJECT_DIR$/app/js/jquery.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/app/server/fontawesome-webfont.ttf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/fontawesome.css" afterPath="$PROJECT_DIR$/app/server/fontawesome.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/footer.html" afterPath="$PROJECT_DIR$/app/server/footer.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/functions.js" afterPath="$PROJECT_DIR$/app/server/functions.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/header.html" afterPath="$PROJECT_DIR$/app/server/header.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/jquery.js" afterPath="$PROJECT_DIR$/app/server/jquery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/reset.css" afterPath="$PROJECT_DIR$/app/server/reset.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/style.css" afterPath="$PROJECT_DIR$/app/server/style.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/server/txture.png" afterPath="$PROJECT_DIR$/app/server/txture.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/style.css" afterPath="$PROJECT_DIR$/app/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/iCheckIPA.iml" afterPath="$PROJECT_DIR$/.idea/iCheckIPA.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Resources/English.lproj/HttpAuth.nib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/ffmpegsumo.dll" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/icudt.dll" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/libEGL.dll" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/libGLESv2.dll" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper EH.app/Contents/Libraries/libclang_rt.asan_osx_dynamic.dylib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper NP.app/Contents/Libraries/libclang_rt.asan_osx_dynamic.dylib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper.app/Contents/Libraries/libclang_rt.asan_osx_dynamic.dylib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Libraries/libclang_rt.asan_osx_dynamic.dylib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/node-webkit Framework" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper EH.app/Contents/MacOS/node-webkit Helper EH" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper NP.app/Contents/MacOS/node-webkit Helper NP" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper.app/Contents/MacOS/node-webkit Helper" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/MacOS/node-webkit" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/nw.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Resources/nw.icns" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Resources/nw.pak" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/nw.pak" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/nwsnapshot.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/nwsnapshot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Gruntfile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/mac-files/Info.plist.tmp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/mac-files/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper EH.app/Contents/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper NP.app/Contents/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper.app/Contents/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/PkgInfo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper EH.app/Contents/PkgInfo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper NP.app/Contents/PkgInfo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Helper.app/Contents/PkgInfo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/credits.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/Windows/credits.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/node-webkit Framework.TOC" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/node-webkit/MacOS/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/node-webkit Framework.tmp" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/js/jquery.min.js" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/app/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.editorconfig" afterPath="$PROJECT_DIR$/.editorconfig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.jshintrc" afterPath="$PROJECT_DIR$/.jshintrc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/application.html" afterPath="$PROJECT_DIR$/app/application.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/frontend.js" afterPath="$PROJECT_DIR$/app/js/frontend.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/style.css" afterPath="$PROJECT_DIR$/app/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/server/style.css" afterPath="$PROJECT_DIR$/app/server/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iCheckIPA.iws" />
@@ -47,37 +71,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="application.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/application.html">
+      <file leaf-file-name="reset.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/server/reset.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="11" selection-start="567" selection-end="567" vertical-scroll-proportion="-7.5" vertical-offset="15" max-vertical-offset="885">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="frontend.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/js/frontend.js">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/server/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="139" column="35" selection-start="3930" selection-end="3930" vertical-scroll-proportion="0.20042418" vertical-offset="1896" max-vertical-offset="4485">
+            <state line="7" column="17" selection-start="169" selection-end="169" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2880">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EcmaScript.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="746" max-vertical-offset="13785">
+            <state line="0" column="3" selection-start="3" selection-end="3" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adm-zip.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/adm-zip/adm-zip.js">
+      <file leaf-file-name="LICENSE" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="271" column="8" selection-start="9096" selection-end="9096" vertical-scroll-proportion="0.0" vertical-offset="3938" max-vertical-offset="6150">
+            <state line="8" column="48" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="48" selection-start="65" selection-end="65" vertical-scroll-proportion="-1.2" vertical-offset="0" max-vertical-offset="300">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="15" selection-start="141" selection-end="141" vertical-scroll-proportion="0.30991736" vertical-offset="0" max-vertical-offset="2490">
               <folding />
             </state>
           </provider>
@@ -86,43 +128,34 @@
       <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="26" selection-start="246" selection-end="246" vertical-scroll-proportion="-6.875" vertical-offset="0" max-vertical-offset="300">
+            <state line="4" column="17" selection-start="85" selection-end="85" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="585">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plist.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/plist/lib/plist.js">
+      <file leaf-file-name="Gruntfile.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Gruntfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="52" selection-start="3266" selection-end="3266" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4815">
+            <state line="5" column="0" selection-start="130" selection-end="148" vertical-scroll-proportion="101.73077" vertical-offset="2720" max-vertical-offset="3165">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DHTML.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
+      <file leaf-file-name=".editorconfig" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.editorconfig">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1163" column="7" selection-start="17890" selection-end="17890" vertical-scroll-proportion="0.0" vertical-offset="17316" max-vertical-offset="57045">
+            <state line="14" column="0" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/plist/package.json">
+      <file leaf-file-name="Info.plist" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/mac-files/Info.plist">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="17" selection-start="891" selection-end="891" vertical-scroll-proportion="0.41666666" vertical-offset="625" max-vertical-offset="975">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/plist/node_modules/xmlbuilder/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="20" selection-start="684" selection-end="684" vertical-scroll-proportion="-3.75" vertical-offset="375" max-vertical-offset="870">
+            <state line="25" column="17" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
               <folding />
             </state>
           </provider>
@@ -148,22 +181,29 @@
       <list>
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/resources/application.html" />
         <option value="$PROJECT_DIR$/resources/style.css" />
         <option value="$PROJECT_DIR$/resources/js/frontend.js" />
         <option value="$PROJECT_DIR$/node_modules/plist/package.json" />
         <option value="$PROJECT_DIR$/node_modules/plist/lib/plist.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/.editorconfig" />
+        <option value="$PROJECT_DIR$/.jshintrc" />
         <option value="$PROJECT_DIR$/app/js/frontend.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/resources/mac-files/Info.plist" />
+        <option value="$PROJECT_DIR$/app/package.json" />
+        <option value="$PROJECT_DIR$/app/application.html" />
+        <option value="$PROJECT_DIR$/app/server/style.css" />
+        <option value="$PROJECT_DIR$/app/style.css" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="683" />
-    <option name="y" value="81" />
-    <option name="width" value="1280" />
-    <option name="height" value="1353" />
+    <option name="x" value="575" />
+    <option name="y" value="442" />
+    <option name="width" value="1152" />
+    <option name="height" value="720" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -256,7 +296,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -271,6 +311,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -304,15 +348,15 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -323,15 +367,23 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -370,27 +422,32 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="683" y="81" width="1280" height="1353" extended-state="0" />
+    <frame x="575" y="442" width="1152" height="720" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3525741" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6474259" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2734375" sideWeight="0.82034975" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27864584" sideWeight="0.82034975" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17965023" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1781874" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3525741" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -404,100 +461,59 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.sh">
+    <entry file="file://$PROJECT_DIR$/app/application.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+        <state line="13" column="11" selection-start="567" selection-end="567" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="885">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/style.css">
+    <entry file="file://$PROJECT_DIR$/app/js/frontend.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="1" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="2370">
+        <state line="139" column="35" selection-start="3930" selection-end="3930" vertical-scroll-proportion="0.0" vertical-offset="2085" max-vertical-offset="4485">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.jshintrc">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
+        <state line="64" column="0" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="14055">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
+    <entry file="file://$PROJECT_DIR$/app/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.bowerrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.editorconfig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/plist/node_modules/xmlbuilder/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="20" selection-start="684" selection-end="684" vertical-scroll-proportion="-3.75" vertical-offset="375" max-vertical-offset="870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/plist/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="17" selection-start="891" selection-end="891" vertical-scroll-proportion="0.41666666" vertical-offset="625" max-vertical-offset="975">
+        <state line="11" column="26" selection-start="246" selection-end="246" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="300">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1163" column="7" selection-start="17890" selection-end="17890" vertical-scroll-proportion="0.0" vertical-offset="17316" max-vertical-offset="57045">
+        <state line="1163" column="7" selection-start="17480" selection-end="17480" vertical-scroll-proportion="0.0" vertical-offset="17445" max-vertical-offset="57195">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/plist/lib/plist.js">
+    <entry file="file://$PROJECT_DIR$/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="52" selection-start="3266" selection-end="3266" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4815">
-          <folding />
-        </state>
+        <state line="1" column="0" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/application.html">
+    <entry file="file://$PROJECT_DIR$/.gitattributes">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="11" selection-start="567" selection-end="567" vertical-scroll-proportion="-7.5" vertical-offset="15" max-vertical-offset="885">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/.bowerrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="26" selection-start="246" selection-end="246" vertical-scroll-proportion="-6.875" vertical-offset="0" max-vertical-offset="300">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/adm-zip/adm-zip.js">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="271" column="8" selection-start="9096" selection-end="9096" vertical-scroll-proportion="0.0" vertical-offset="3848" max-vertical-offset="6150">
+        <state line="1163" column="7" selection-start="17480" selection-end="17480" vertical-scroll-proportion="0.0" vertical-offset="17445" max-vertical-offset="57195">
           <folding />
         </state>
       </provider>
@@ -511,7 +527,100 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/js/frontend.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="139" column="35" selection-start="3930" selection-end="3930" vertical-scroll-proportion="0.20042418" vertical-offset="1896" max-vertical-offset="4485">
+        <state line="179" column="28" selection-start="6035" selection-end="6035" vertical-scroll-proportion="6.033708" vertical-offset="0" max-vertical-offset="4470">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.jshintrc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="18" selection-start="239" selection-end="239" vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.editorconfig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="17" selection-start="85" selection-end="85" vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="585">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gruntfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="130" selection-end="148" vertical-scroll-proportion="101.73077" vertical-offset="2720" max-vertical-offset="3165">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="3" selection-start="3" selection-end="3" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="48" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="48" selection-start="65" selection-end="65" vertical-scroll-proportion="-1.2" vertical-offset="0" max-vertical-offset="300">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/mac-files/Info.plist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="17" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="23" selection-start="13" selection-end="22" vertical-scroll-proportion="0.032608695" vertical-offset="0" max-vertical-offset="460">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/application.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="20" selection-start="2087" selection-end="2087" vertical-scroll-proportion="0.28503564" vertical-offset="525" max-vertical-offset="1470">
+          <folding>
+            <element signature="n#style#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/server/reset.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/server/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="17" selection-start="169" selection-end="169" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="15" selection-start="141" selection-end="141" vertical-scroll-proportion="0.30991736" vertical-offset="0" max-vertical-offset="2490">
           <folding />
         </state>
       </provider>

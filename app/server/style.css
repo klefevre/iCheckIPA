@@ -2,9 +2,9 @@
 
 body {
     background-color:#222;
-    color:#FFF;
+    color:#000;
     font-family:sans-serif;
-    background-image:url('/txture.png.server');
+    /*background-image:url('/txture.png.server');*/
     padding: 0px;
     margin: 100px auto 100px auto;
     max-width: 1000px;

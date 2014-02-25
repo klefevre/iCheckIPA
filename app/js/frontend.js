@@ -4,9 +4,8 @@ var http = require('http'),
     os = require('os'),
     url = require('url'),
     AdmZip = require('adm-zip'),
-    plist = require('plist'),
+    plist = null,//require('plist'),
     exec = require('child_process').exec;
-
 
 //Set the current_tab variable to the home tab : dropzone.
 var current_tab = 'dropzone';
@@ -14,15 +13,15 @@ var current_tab = 'dropzone';
 var win = gui.Window.get();
 win.showDevTools();
 
-function resetUI () {
+function resetUI() {
     var $list = $('#results ul');
 
     $list.empty();
 }
 
-function AppInfo () {
-    this.name = "";
-    this.environnement = "";
+function AppInfo() {
+    this.name = '';
+    this.environnement = '';
     this
 //    getInfo: function () {
 //        return this.color + ' ' + this.type + ' apple';
@@ -39,14 +38,14 @@ function copyFile(source, target, cb) {
     var cbCalled = false;
 
     var rd = fs.createReadStream(source);
-    rd.on("error", function(err) {
+    rd.on("error", function (err) {
         done(err);
     });
     var wr = fs.createWriteStream(target);
-    wr.on("error", function(err) {
+    wr.on("error", function (err) {
         done(err);
     });
-    wr.on("close", function(ex) {
+    wr.on("close", function (ex) {
         done(null);
     });
     rd.pipe(wr);
@@ -62,7 +61,7 @@ function copyFile(source, target, cb) {
 function displayResults(results) {
     var $list = $('#results ul');
 
-    results['ProvisionedDevices'].some( function(item) {
+    results['ProvisionedDevices'].some( function (item) {
         $list.append(
             $('<li>').append(
                 $('<span>').attr('class', 'tab').append(item)
@@ -166,7 +165,7 @@ function onReady() {
                             console.log('rStream =', linkPath + '/' + files[i]);
                             console.log('wStream =', tmpDir + '/' + files[i]);
 
-                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function(err) {
+                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function (err) {
                                 if (err === null) {
                                     console.log('FINAAAAAL', tmpDir + '/' + files[i]);
                                     return analyseProvisionning(tmpDir + '/' + files[i]);
