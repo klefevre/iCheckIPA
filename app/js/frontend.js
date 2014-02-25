@@ -4,9 +4,8 @@ var http = require('http'),
     os = require('os'),
     url = require('url'),
     AdmZip = require('adm-zip'),
-    plist = require('plist'),
+    plist = null,//require('plist'),
     exec = require('child_process').exec;
-
 
 //Set the current_tab variable to the home tab : dropzone.
 var current_tab = 'dropzone';
@@ -14,15 +13,15 @@ var current_tab = 'dropzone';
 var win = gui.Window.get();
 win.showDevTools();
 
-function resetUI () {
+function resetUI() {
     var $list = $('#results ul');
 
     $list.empty();
 }
 
-function AppInfo () {
-    this.name = "";
-    this.environnement = "";
+function AppInfo() {
+    this.name = '';
+    this.environnement = '';
     this
 //    getInfo: function () {
 //        return this.color + ' ' + this.type + ' apple';
@@ -39,14 +38,14 @@ function copyFile(source, target, cb) {
     var cbCalled = false;
 
     var rd = fs.createReadStream(source);
-    rd.on("error", function(err) {
+    rd.on("error", function (err) {
         done(err);
     });
     var wr = fs.createWriteStream(target);
-    wr.on("error", function(err) {
+    wr.on("error", function (err) {
         done(err);
     });
-    wr.on("close", function(ex) {
+    wr.on("close", function (ex) {
         done(null);
     });
     rd.pipe(wr);
@@ -62,7 +61,7 @@ function copyFile(source, target, cb) {
 function displayResults(results) {
     var $list = $('#results ul');
 
-    results['ProvisionedDevices'].some( function(item) {
+    results['ProvisionedDevices'].some( function (item) {
         $list.append(
             $('<li>').append(
                 $('<span>').attr('class', 'tab').append(item)
@@ -93,16 +92,32 @@ function analyseProvisionning(path) {
 }
 
 //Function for when the page is ready.
-function onReady() {
+
+ function onReady() {
+ }
+
+$( document ).ready(function() {
 
 	//Load the settings and start the backend webserver.
 	loadSettings();
 	// start_server();
 	
 	//Define the dropzone DOM element.
-	var dropzone = document.getElementById('dropzone');
-	
-	//Event for when the client drops file in the dropzone.
+	var dropzone = $('#dropzone')[0]; // document.getElementById('dropzone');
+    var $certif_dropzone = $('#certificate_dropzone')[0];
+    console.log('$ipa_dropzone =', $ipa_dropzone );
+
+    $certif_dropzone.ondrop = function (e) {
+
+    }
+    $certif_dropzone.ondragenter = function (e) {
+        $(this).css('border-color', 'yellow');
+    }
+    $certif_dropzone.ondragleave = function (e) {
+        $(this).css('border-color', 'red');
+    }
+
+    //Event for when the client drops file in the dropzone.
 	dropzone.ondrop = function (e) {
 
         //Make sure that the window doesn't show the file in plain text.
@@ -111,8 +126,10 @@ function onReady() {
         resetUI();
 
         //Change the inside message of the dropzone to 'Drop files in here to instantly share them!'
-		document.getElementById('drop_message').innerHTML = 'Drop files in here to check your IPA';
-		
+		$('#drop_message').innerHTML = 'Drop files in here to check your IPA';
+
+
+
 		//Make sure that all of the files that are dropped in get linked inside the ./files/ folder inside the application.
 		for (i = 0; i < e.dataTransfer.files.length; i++) {
 
@@ -166,7 +183,7 @@ function onReady() {
                             console.log('rStream =', linkPath + '/' + files[i]);
                             console.log('wStream =', tmpDir + '/' + files[i]);
 
-                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function(err) {
+                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function (err) {
                                 if (err === null) {
                                     console.log('FINAAAAAL', tmpDir + '/' + files[i]);
                                     return analyseProvisionning(tmpDir + '/' + files[i]);
@@ -221,7 +238,7 @@ function onReady() {
 		}
 	
 	});
-}
+});
 
 //Function for switching tabs inside the application.
 function go(tab) {

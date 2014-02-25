@@ -1,9 +1,19 @@
 tmp
-node_modules
-dist
 .tmp
 .sass-cache
+
+// NPM
+node_modules
+
+// Dist folder
+dist
+
+// IDE
 .idea
+
+// Bower
 app/bower_components
 test/bower_components
+
+// Others
 test

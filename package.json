@@ -1,15 +1,33 @@
 {
-	"version" : "0.0.1",
-	"main" : "app/application.html",
-	"name" : "iCheckIPA",
-	"window" : {
-		"title" : "iCheckIPA",
-		"toolbar" : false,
-		"frame" : true,
-		"position" : "mouse",
-		"min_width" : 768,
-		"min_height" : 685,
-		"max_width" : 768,
-		"max_height" : 685
-	}
+  "name": "iCheckIPA",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  
+    "homepage": "https://github.com/klefevre/iCheckIPA",
+    "bugs": "https://github.com/klefevre/iCheckIPA/issues",
+    "author": {
+      "name": "Kevin Lefevre",
+      "email": "",
+      "url": "https://github.com/klefevre"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/klefevre/iCheckIPA.git"
+    },
+  
+  "dependencies": {},
+  "devDependencies": {
+    "matchdep": "~0.1.1",
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.1.3",
+    "grunt-contrib-jshint": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-rename": "0.0.3",
+    "grunt-contrib-compress": "~0.5.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
 }
