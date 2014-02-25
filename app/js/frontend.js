@@ -92,16 +92,32 @@ function analyseProvisionning(path) {
 }
 
 //Function for when the page is ready.
-function onReady() {
+
+ function onReady() {
+ }
+
+$( document ).ready(function() {
 
 	//Load the settings and start the backend webserver.
 	loadSettings();
 	// start_server();
 	
 	//Define the dropzone DOM element.
-	var dropzone = document.getElementById('dropzone');
-	
-	//Event for when the client drops file in the dropzone.
+	var dropzone = $('#dropzone')[0]; // document.getElementById('dropzone');
+    var $certif_dropzone = $('#certificate_dropzone')[0];
+    console.log('$ipa_dropzone =', $ipa_dropzone );
+
+    $certif_dropzone.ondrop = function (e) {
+
+    }
+    $certif_dropzone.ondragenter = function (e) {
+        $(this).css('border-color', 'yellow');
+    }
+    $certif_dropzone.ondragleave = function (e) {
+        $(this).css('border-color', 'red');
+    }
+
+    //Event for when the client drops file in the dropzone.
 	dropzone.ondrop = function (e) {
 
         //Make sure that the window doesn't show the file in plain text.
@@ -110,8 +126,10 @@ function onReady() {
         resetUI();
 
         //Change the inside message of the dropzone to 'Drop files in here to instantly share them!'
-		document.getElementById('drop_message').innerHTML = 'Drop files in here to check your IPA';
-		
+		$('#drop_message').innerHTML = 'Drop files in here to check your IPA';
+
+
+
 		//Make sure that all of the files that are dropped in get linked inside the ./files/ folder inside the application.
 		for (i = 0; i < e.dataTransfer.files.length; i++) {
 
@@ -220,7 +238,7 @@ function onReady() {
 		}
 	
 	});
-}
+});
 
 //Function for switching tabs inside the application.
 function go(tab) {
