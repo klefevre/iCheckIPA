@@ -1,108 +1,106 @@
 <html lang="en">
-    <head>
-		<meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>iCheckIPA</title>
-		<link rel="stylesheet" href="style.css" />
-		<link rel="stylesheet" href="fonts/fontawesome.css" />
-		<script type="text/javascript">
-			window.ondragover = function(e) { e.preventDefault(); return false };
-			window.ondrop = function(e) { e.preventDefault(); return false };
-		</script>
-        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" ret="stylesheet">
-    </head>
-	
-	<body onload="onReady()">
-		<div id="alert">
-			This is a test alert.
-		</div>
-		<!--<header>-->
-            <div class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">iCheckIPA</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="./">Default</a></li>
-                            <!--<li><a href="../navbar-static-top/">Static top</a></li>-->
-                            <!--<li><a href="../navbar-fixed-top/">Fixed top</a></li>-->
-                        </ul>
-                    </div>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iCheckIPA</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="fonts/fontawesome.css" />
+    <script type="text/javascript">
+        window.ondragover = function(e) { e.preventDefault(); return false };
+        window.ondrop = function(e) { e.preventDefault(); return false };
+    </script>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" ret="stylesheet">
+</head>
+
+<body>
+<div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">iCheckIPA</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="./">Default</a></li>
+                <!--<li><a href="../navbar-static-top/">Static top</a></li>-->
+                <!--<li><a href="../navbar-fixed-top/">Fixed top</a></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row show-grid">
+        <div class="col-xs-5">
+            <section id="dropzone" class="dropzone">
+                <div class="drop_message">Drop your ipa, app or provisionning here</div>
+            </section>
+            <section id="certif_dropzone" class="dropzone">
+                <div class="drop_message">Drop your certificate here</div>
+            </section>
+        </div>
+        <div class="col-xs-7">
+            <div id="panel-results" class="panel panel-default"">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Information</h3>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row show-grid">
-                    <div class="col-xs-5">
-                        <section id="dropzone" class="dropzone">
-                            <div class="drop_message">Drop your ipa/app or provisionning here</div>
-                        </section>
-                        <section id="certificate_dropzone" class="dropzone">
-                            <div class="drop_message">Drop your certificates here</div>
-                        </section>
-                    </div>
-                    <div class="col-xs-7">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Information</div>
-                            <div class="panel-body">
-                                Panel content
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">UDID</div>
-                            <div class="panel-body">
-                                Panel content
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-body">
+                    <ul id="list-entitlements" class="list-group">
+                    </ul>
                 </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">UDID</h3>
+                </div>
+                <ul id="list-udid" class="list-group">
+                </ul>
             </div>
+        </div>
+    </div>
+</div>
 
-					<!--<h1>iCheckIPA</h1>-->
-			<!---->
-			<!--<ul id="menubar">-->
-				<!--<li class="dropzone"><i class="icon-home"> </i></li>-->
-				<!--<li class="connection"><i class="icon-cog"> </i></li>-->
-				<!--&lt;!&ndash;<li class="options">&#9997;</li>&ndash;&gt;-->
-			<!--</ul>-->
-		<!--</header>-->
+<!--<h1>iCheckIPA</h1>-->
+<!---->
+<!--<ul id="menubar">-->
+<!--<li class="dropzone"><i class="icon-home"> </i></li>-->
+<!--<li class="connection"><i class="icon-cog"> </i></li>-->
+<!--&lt;!&ndash;<li class="options">&#9997;</li>&ndash;&gt;-->
+<!--</ul>-->
+<!--</header>-->
 
-        <!--<section id="left_content">-->
-            <!--<div id="container">-->
+<!--<section id="left_content">-->
+<!--<div id="container">-->
 
-                <!--<section id="certif_dropzone" class="dropzone">-->
-                    <!--<div class="drop_message">Drop your p12 certificate here</div>-->
-                <!--</section>-->
-        <!--</div>-->
-        <!--</section>-->
+<!--<section id="certif_dropzone" class="dropzone">-->
+<!--<div class="drop_message">Drop your p12 certificate here</div>-->
+<!--</section>-->
+<!--</div>-->
+<!--</section>-->
 
-        <!--<section id="right_content">-->
+<!--<section id="right_content">-->
 
-        <!--</section>-->
+<!--</section>-->
 
-		<section style="display:none" id="connection">
-			<h3>Options - Dropzone</h3>
-			
-			<div id="panel">
-				<ul>
-					<li>Port : <input id="port_setting" type="text"/></li>
-					<sup>If the port is =< 1024, root or admin permissions are required to run this program.</sup>
-					<li>Dropzone name : <input id="name_setting" type="text"/></li>
-					<sup>This name will be shown to your friends. (e.g Shawn's Dropzone)</sup>
-					<br>
-					<input type="button" value="Save" onclick="extractSettings()"><input type="button" value="Restart Server" onclick="restart_server()" />
-				</ul>
-			</div>
-		</section>
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="js/frontend.js"></script>
-    </body>
+<section style="display:none" id="connection">
+    <h3>Options - Dropzone</h3>
+
+    <div id="panel">
+        <ul>
+            <li>Port : <input id="port_setting" type="text"/></li>
+            <sup>If the port is =< 1024, root or admin permissions are required to run this program.</sup>
+            <li>Dropzone name : <input id="name_setting" type="text"/></li>
+            <sup>This name will be shown to your friends. (e.g Shawn's Dropzone)</sup>
+            <br>
+            <input type="button" value="Save" onclick="extractSettings()"><input type="button" value="Restart Server" onclick="restart_server()" />
+        </ul>
+    </div>
+</section>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/frontend.js"></script>
+</body>
 </html>

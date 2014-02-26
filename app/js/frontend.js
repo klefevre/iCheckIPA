@@ -4,7 +4,7 @@ var http = require('http'),
     os = require('os'),
     url = require('url'),
     AdmZip = require('adm-zip'),
-    plist = null,//require('plist'),
+    plist = require('plist'),
     exec = require('child_process').exec;
 
 //Set the current_tab variable to the home tab : dropzone.
@@ -14,9 +14,9 @@ var win = gui.Window.get();
 win.showDevTools();
 
 function resetUI() {
-    var $list = $('#results ul');
-
-    $list.empty();
+    $('#panel-results').css('visibility', 'hidden');
+    $('#list-entitlements').empty();
+    $('#list-udid').empty();
 }
 
 function AppInfo() {
@@ -32,7 +32,6 @@ function AppInfo() {
 function extensionOf(filename) {
     return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
 }
-
 
 function copyFile(source, target, cb) {
     var cbCalled = false;
@@ -59,15 +58,50 @@ function copyFile(source, target, cb) {
 }
 
 function displayResults(results) {
-    var $list = $('#results ul');
+    var $list;
+    var text;
+    var i = 0,
+        obj = null;
 
-    results['ProvisionedDevices'].some( function (item) {
-        $list.append(
-            $('<li>').append(
-                $('<span>').attr('class', 'tab').append(item)
-        ));
-    });
+    $('#panel-results').css('visibility', 'visible');
 
+    // Entitlements
+    obj = results['Entitlements'];
+    $list = $('#list-entitlements');
+
+    // Dev or Prod ?
+    text = 'Debug : ' + ((obj['get-task-allow'] === undefined ||
+                          obj['get-task-allow'] === null) ? '?' : (obj['get-task-allow'] ? 'true' : 'false'));
+    $list.append($('<li class="list-group-item">').append(text));
+
+    // Push
+    text = 'Push : ' + ((obj['aps-environment'] === undefined ||
+                         obj['aps-environment'] === null) ? 'NO' : obj['aps-environment']);
+    $list.append($('<li class="list-group-item">').append(text));
+
+    // Conclusion
+    text = 'Conclusion : ';
+    if (results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
+        text += 'Development';
+    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
+        text += 'AdHoc';
+    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionsAllDevices'] !== undefined) {
+        text += 'InHouse';
+    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] === undefined) {
+        text += 'AppStore';
+    } else {
+        text += 'Unknown';
+    }
+    $list.append($('<li class="list-group-item">').append(text));
+
+    // UDID
+    obj = results['ProvisionedDevices'];
+    $list = $('#list-udid');
+    if (obj !== undefined && obj !== null) {
+        for (i = 0; i < obj.length; ++i) {
+            $list.append($('<li class="list-group-item">').append(obj[i]));
+        }
+    }
 }
 
 function analyseFailed(err) {
@@ -96,148 +130,107 @@ function analyseProvisionning(path) {
  function onReady() {
  }
 
-$( document ).ready(function() {
 
+$( document ).ready(function() {
 	//Load the settings and start the backend webserver.
 	loadSettings();
-	// start_server();
-	
-	//Define the dropzone DOM element.
-	var dropzone = $('#dropzone')[0]; // document.getElementById('dropzone');
-    var $certif_dropzone = $('#certificate_dropzone')[0];
-    console.log('$ipa_dropzone =', $ipa_dropzone );
+
+
+    $('#panel-results').css('visibility', 'hidden');
+
+
+    var $ipa_dropzone = $('#dropzone')[0];
+    var $certif_dropzone = $('#certif_dropzone')[0];
 
     $certif_dropzone.ondrop = function (e) {
-
+        e.preventDefault();
     }
     $certif_dropzone.ondragenter = function (e) {
         $(this).css('border-color', 'yellow');
+        if (e.dataTransfer.files.length > 1) {
+            alert('NO');
+        }
     }
     $certif_dropzone.ondragleave = function (e) {
         $(this).css('border-color', 'red');
     }
 
     //Event for when the client drops file in the dropzone.
-	dropzone.ondrop = function (e) {
-
-        //Make sure that the window doesn't show the file in plain text.
+    $ipa_dropzone.ondrop = function (e) {
         e.preventDefault();
-
         resetUI();
+        // Get srcPath and filename
+        var srcPath = e.dataTransfer.files[0].path;
+        srcPath = srcPath.replace(/\\/g, "/");
+        var filename = srcPath.split('/')[srcPath.split('/').length - 1];
+        console.log('srcPath =', e.dataTransfer.files[0].path);
+        console.log('filename =', filename);
 
-        //Change the inside message of the dropzone to 'Drop files in here to instantly share them!'
-		$('#drop_message').innerHTML = 'Drop files in here to check your IPA';
+        // Check extension's file
+        switch (extensionOf(filename)) {
+            case 'ipa':
+            case 'app':
+            case 'mobileprovision':
+                break;
+            default:
+                return analyseFailed('Bad extension file');
+        }
 
+        // Create tmp directory which should be unique
+        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
+        fs.mkdirSync(tmpDir);
 
-
-		//Make sure that all of the files that are dropped in get linked inside the ./files/ folder inside the application.
-		for (i = 0; i < e.dataTransfer.files.length; i++) {
-
-			var path = e.dataTransfer.files[i].path;
-			path = path.replace(/\\/g, "/");
-            var filename = path.split('/')[path.split('/').length - 1];
-
-            console.log('Path is', e.dataTransfer.files[i].path);
-            console.log('Filename is', filename);
-
-
-            // TODO: HERE WE SHOULD CHECK EXTENSION
-
-            var tmpDir = process.cwd() + '/tmp/' + new Date().getTime() + Math.random();
-            var linkPath = tmpDir + '/' + filename;
-            console.log('Link Path is', linkPath);
-            fs.mkdirSync(tmpDir);
-
-            // If link was already created in the tmp dir, create it
-            if (!fs.existsSync(linkPath)) {
-                fs.linkSync(e.dataTransfer.files[i].path, linkPath);
-            }
-
-            console.info('-----------------------------------');
-            // Check file extension
-            switch (extensionOf(filename)) {
-                case 'ipa': // Unzip .ipa, extract the .mobileprovision, and analyse it
-                    console.info('.ipa file... processing...');
-
-                    var zip = new AdmZip(linkPath),
-                        entries = zip.getEntries();
-
-                    for (var i = 0; i < entries.length; ++i) {
-                        if (extensionOf(entries[i].entryName) === 'mobileprovision') {
-                            zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
-                            return analyseProvisionning(tmpDir + '/' + entries[i].name);
+        // Copy file in tmpDir
+        var targetPath = tmpDir + '/' + filename;
+        console.log('targetPath =', targetPath);
+        copyFile(srcPath, tmpDir + '/' + filename, function (err) {
+            if (err !== null) {
+                return analyseFailed('Error while copying :' + err);
+            } else {
+                console.info('-----------------------------------');
+                // Check file extension
+                switch (extensionOf(filename)) {
+                    case 'ipa': { // Unzip .ipa, extract the .mobileprovision, and analyse it
+                        var zip = new AdmZip(targetPath),
+                            entries = zip.getEntries();
+                        for (var i = 0; i < entries.length; ++i) {
+                            if (extensionOf(entries[i].entryName) === 'mobileprovision') {
+                                zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
+                                return analyseProvisionning(tmpDir + '/' + entries[i].name);
+                            }
                         }
+                        return analyseFailed('No provisionning found in ' + entries[i].name);
                     }
-                    return analyseFailed('No provisionning found in ' + entries[i].name);
-
-                case 'app': // Read the .app, copy the .mobileprovision, and analyse it
-                    console.info('.app file... processing...');
-
-                    // We check only at the root of .app
-                    var files = fs.readdirSync(linkPath);
-
-                    for (var i = 0; i < files.length; ++i) {
-
-                        if (extensionOf(files[i]) === 'mobileprovision') {
-                            // TODO: Check stream creation errors
-                            console.log('rStream =', linkPath + '/' + files[i]);
-                            console.log('wStream =', tmpDir + '/' + files[i]);
-
-                            copyFile(linkPath + '/' + files[i], tmpDir + '/' + files[i], function (err) {
-                                if (err === null) {
-                                    console.log('FINAAAAAL', tmpDir + '/' + files[i]);
-                                    return analyseProvisionning(tmpDir + '/' + files[i]);
-                                } else {
-                                    return analyseFailed('Error while copying provisionning :', err);
-                                }
-                            });
+                    case 'app': { // Read the .app, copy the .mobileprovision, and analyse it
+                        var files = fs.readdirSync(targetPath); // We check only at the root of .app
+                        for (var i = 0; i < files.length; ++i) {
+                            if (extensionOf(files[i]) === 'mobileprovision') {
+                                return analyseProvisionning(tmpDir + '/' + files[i]);
+                            }
                         }
+                        return analyseFailed('Error while copying provisionning :', err);
                     }
-
-                case 'mobileprovision': // Just analyse the .mobileprovision
-                    console.info('.mobileprovision file... processing...');
-                    analyseProvisionning(linkPath);
-                    break;
-                default:
-                     alert('FU !');
-                    return;
+                    case 'mobileprovision': { // Just analyse the .mobileprovision
+                        return analyseProvisionning(targetPath);
+                    }
+                    default:
+                        alert('FU !');
+                        return;
+                }
             }
+        });
+    }
 
-			//In windows, copy the file to the directory if it's another system, create a symbolic link.
-			// if (os.platform() != 'win32') {
-			// 	fs.symlinkSync(e.dataTransfer.files[i].path, process.cwd() + '/files/' + filename, 'file');	
-			// }
-			// else {
-				
-			
-		}
-		
-	}
-	
-	//An event for when the user enters the drag field with files.
-	dropzone.ondragenter = function () {
-		document.getElementById('drop_message').innerHTML = 'Let go of the mouse button to check your IPA.';
-	}
-	
-	//Another event for when the user leaves the dropzone.
-	dropzone.ondragleave = function () {
-		document.getElementById('drop_message').innerHTML = 'Drop files in here to check your IPA';
-	}
-	
-	//Events for the navigation buttons.
-	$('ul#menubar li').click(function (e) {
-		if (e.toElement.className != 'reset') {
-			go(e.toElement.className);
-		}
-		else if (e.toElement.className == 'reset' && e.which == 2) {
-			resetFiles();
-			feedback('Reset all hosted files.');
-		}
-		else {
-			feedback('Middle-click to reset hosted files.');
-		}
-	
-	});
+    $ipa_dropzone.ondragenter = function (e) {
+        $(this).css('border-color', 'yellow');
+        if (e.dataTransfer.files.length > 1) {
+            alert('NO');
+        }
+    }
+
+    $ipa_dropzone.ondragleave = function (e) {
+        $(this).css('border-color', 'red');
+    }
 });
 
 //Function for switching tabs inside the application.

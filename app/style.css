@@ -66,6 +66,10 @@ header ul li i {
 
 /* Section styles */
 
+#dropzone {
+    margin-bottom: 10px;
+}
+
 /*section {*/
 	/*margin:20px;*/
 	/*margin-top:80px;*/

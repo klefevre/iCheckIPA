@@ -13,7 +13,6 @@ dist
 
 // Bower
 app/bower_components
-test/bower_components
 
 // Others
 test
