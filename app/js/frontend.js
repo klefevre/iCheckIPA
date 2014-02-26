@@ -92,6 +92,7 @@ function analyseProvisionning(path) {
     var child = exec('openssl smime -inform DER -verify -in ' + path,
         function (error, stdout, stderr) {
             if (error === null) {
+                console.log('stdout =', stdout);
                 var result = plist.parseStringSync(stdout);
                 console.log('result =', result);
                 displayResults(result);
@@ -109,36 +110,39 @@ function extractProvisionning(filename, targetPath, tmpDir, callback) {
             for (var i = 0; i < entries.length; ++i) {
                 if (extensionOf(entries[i].entryName) === 'mobileprovision') {
                     zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
-                    return callback(tmpDir + '/' + entries[i].name);
+                    return callback(null, tmpDir + '/' + entries[i].name);
                 }
             }
-            return analyseFailed('No provisionning found in ' + entries[i].name);
+            return callback('No provisionning found in ' + entries[i].name, null);
         }
         case 'app': { // Read the .app (only at the root level), and analyse it
-            return fs.readdir(targetPath, function (err, files) {
+            fs.readdir(targetPath, function (err, files) {
                 if (err) { return analyseFailed('Error while reading .app : ' + err); }
                 for (var i = 0; i < files.length; ++i) {
                     console.log(files[i]);
                     if (extensionOf(files[i]) === 'mobileprovision') {
-                        return callback(targetPath + '/' + files[i]);
+                        console.log('==> provisionning found')
+                        return callback(null, targetPath + '/' + files[i]);
                     }
                 }
-                return analyseFailed('No provisionning found in ' + filename);
+                return callback('No provisionning found in ' + filename, null);
             });
+            break;
         }
         case 'mobileprovision': // Just analyse the .mobileprovision
-            return callback(targetPath);
+            return callback(null, targetPath);
         default:
             break;
     }
 }
 
 function manageProvisionningDropzone() {
-    var $ipa_dropzone = $('#dropzone')[0];
+    var $provisionning_dropzone = $('#dropzone')[0];
 
-    $ipa_dropzone.ondrop = function (e) {
+    $provisionning_dropzone.ondrop = function (e) {
         e.preventDefault();
         resetUI();
+        $(this).css('border-color', 'red');
 
         // Get srcPath and filename
         var srcPath = e.dataTransfer.files[0].path;
@@ -154,11 +158,11 @@ function manageProvisionningDropzone() {
             case 'mobileprovision':
                 break;
             default:
-                return analyseFailed('Bad extension file');
+                return false;
         }
 
         // Create tmp directory which should be unique
-        var tmpDir = process.cwd() + '../tmp/' + new Date().getTime() + Math.random();
+        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
         fs.mkdirSync(tmpDir);
 
         // Copy file in tmpDir
@@ -167,20 +171,18 @@ function manageProvisionningDropzone() {
 
         fs.copy(srcPath, targetPath, function (err) {
             if (err) { return analyseFailed('Error while copying :' + err); }
-            extractProvisionning(filename, targetPath, tmpDir, function (provisionningPath) {
+            extractProvisionning(filename, targetPath, tmpDir, function (err, provisionningPath) {
+                if (err) { return analyseFailed(err); }
                 analyseProvisionning(provisionningPath);
             });
         });
     }
 
-    $ipa_dropzone.ondragenter = function (e) {
+    $provisionning_dropzone.ondragenter = function (e) {
         $(this).css('border-color', 'yellow');
-        if (e.dataTransfer.files.length > 1) {
-            alert('NO');
-        }
     }
 
-    $ipa_dropzone.ondragleave = function (e) {
+    $provisionning_dropzone.ondragleave = function (e) {
         $(this).css('border-color', 'red');
     }
 }
@@ -188,11 +190,77 @@ function manageProvisionningDropzone() {
 //
 // Certificate management
 //
+function analyseCertificate(pemPath, callback) {
+    fs.readFile(pemPath, 'utf8', function (err, data) {
+        if (err) { return console.log(err); }
+        console.log(data);
+    });
+}
+
+function decryptCertificate(certifPath, password, callback) {
+    if (certifPath === undefined || certifPath === null) { return analyseFailed('Analyse failed'); }
+    if (password === undefined || password === null) { return analyseFailed('Password is required to decrypt a p12'); }
+
+    // TODO: Find a way to NOT use exec -> EVIL. Maybe we may achieve it using crypto, node-forge or something else ?
+    var child = exec('openssl pkcs12 -nodes -in ' + certifPath + ' -out ' + certifPath + '.pem' + ' -passin pass:' + password,
+        function (error, stdout, stderr) {
+            if (error) { return callback(error, null); }
+            return callback(null, certifPath + '.pem')
+        });
+}
+
+function extractCertificate(filename, targetPath, callback) {
+    // Check extension's file
+    switch (extensionOf(filename)) {
+        case 'p12':
+            decryptCertificate(targetPath, 'test', function(err, pemPath) {
+                return callback(err, pemPath);
+            });
+            break;
+        case 'pem':
+            return callback(null, targetPath);
+        default:
+            return analyseFailed('Bad extension file');
+    }
+}
+
 function manageCertificateDropzone() {
     var $certif_dropzone = $('#certif_dropzone')[0];
 
     $certif_dropzone.ondrop = function (e) {
         e.preventDefault();
+        $(this).css('border-color', 'red');
+
+        // Get srcPath and filename
+        var srcPath = e.dataTransfer.files[0].path;
+        srcPath = srcPath.replace(/\\/g, "/");
+        var filename = srcPath.split('/')[srcPath.split('/').length - 1];
+        console.log('srcPath =', e.dataTransfer.files[0].path);
+        console.log('filename =', filename);
+
+        // Check extension's file
+        switch (extensionOf(filename)) {
+            case 'p12':
+            case 'pem':
+                break;
+            default:
+                return analyseFailed('Bad extension file');
+        }
+
+        // Create tmp directory which should be unique
+        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
+        fs.mkdirSync(tmpDir);
+
+        // Copy file in tmpDir
+        var targetPath = tmpDir + '/' + filename;
+        console.log('targetPath =', targetPath);
+
+        fs.copy(srcPath, targetPath, function (err) {
+            if (err) { return analyseFailed('Error while copying ' + filename + ' : ' + err); }
+            extractCertificate(filename, targetPath, function(err, pemPath) {
+                return analyseCertificate(pemPath);
+            });
+        });
     }
     $certif_dropzone.ondragenter = function (e) {
         $(this).css('border-color', 'yellow');
