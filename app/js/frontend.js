@@ -1,5 +1,5 @@
 var http = require('http'),
-    fs = require('fs'),
+    fs = require('fs-extra'),
     gui = require('nw.gui'),
     os = require('os'),
     url = require('url'),
@@ -7,61 +7,32 @@ var http = require('http'),
     plist = require('plist'),
     exec = require('child_process').exec;
 
-//Set the current_tab variable to the home tab : dropzone.
-var current_tab = 'dropzone';
-
 var win = gui.Window.get();
 win.showDevTools();
 
+$(document).ready(function() {
+    //Load the settings and start the backend webserver.
+    loadSettings();
+
+    $('#panel-results').css('visibility', 'hidden');
+
+    manageProvisionningDropzone();
+    manageCertificateDropzone();
+});
+
+//
+// UI Management
+//
 function resetUI() {
     $('#panel-results').css('visibility', 'hidden');
     $('#list-entitlements').empty();
     $('#list-udid').empty();
 }
 
-function AppInfo() {
-    this.name = '';
-    this.environnement = '';
-    this
-//    getInfo: function () {
-//        return this.color + ' ' + this.type + ' apple';
-//    }
-}
-
-// Extract extension of a filename e.g. blabla.zip => zip
-function extensionOf(filename) {
-    return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
-}
-
-function copyFile(source, target, cb) {
-    var cbCalled = false;
-
-    var rd = fs.createReadStream(source);
-    rd.on("error", function (err) {
-        done(err);
-    });
-    var wr = fs.createWriteStream(target);
-    wr.on("error", function (err) {
-        done(err);
-    });
-    wr.on("close", function (ex) {
-        done(null);
-    });
-    rd.pipe(wr);
-
-    function done(err) {
-        if (!cbCalled) {
-            cb(err);
-            cbCalled = true;
-        }
-    }
-}
-
 function displayResults(results) {
     var $list;
+    var obj;
     var text;
-    var i = 0,
-        obj = null;
 
     $('#panel-results').css('visibility', 'visible');
 
@@ -69,7 +40,7 @@ function displayResults(results) {
     obj = results['Entitlements'];
     $list = $('#list-entitlements');
 
-    // Dev or Prod ?
+    // Debug
     text = 'Debug : ' + ((obj['get-task-allow'] === undefined ||
                           obj['get-task-allow'] === null) ? '?' : (obj['get-task-allow'] ? 'true' : 'false'));
     $list.append($('<li class="list-group-item">').append(text));
@@ -108,9 +79,14 @@ function analyseFailed(err) {
     alert(err);
 }
 
+//
+// Provisionning management
+//
 function analyseProvisionning(path) {
     console.info('----------------------------------');
-    console.info('Analysing provisionning', path);
+    console.info('Analysing provisionning at', path);
+
+    if (path === undefined || path === null) { return analyseFailed('Analyse failed'); }
 
     // TODO: Find a way to NOT use exec -> EVIL. Maybe we may achieve it using crypto, node-forge or something else ?
     var child = exec('openssl smime -inform DER -verify -in ' + path,
@@ -125,40 +101,45 @@ function analyseProvisionning(path) {
         });
 }
 
-//Function for when the page is ready.
-
- function onReady() {
- }
-
-
-$( document ).ready(function() {
-	//Load the settings and start the backend webserver.
-	loadSettings();
-
-
-    $('#panel-results').css('visibility', 'hidden');
-
-
-    var $ipa_dropzone = $('#dropzone')[0];
-    var $certif_dropzone = $('#certif_dropzone')[0];
-
-    $certif_dropzone.ondrop = function (e) {
-        e.preventDefault();
-    }
-    $certif_dropzone.ondragenter = function (e) {
-        $(this).css('border-color', 'yellow');
-        if (e.dataTransfer.files.length > 1) {
-            alert('NO');
+function extractProvisionning(filename, targetPath, tmpDir, callback) {
+    switch (extensionOf(filename)) {
+        case 'ipa': { // Unzip .ipa, extract the .mobileprovision, and analyse it
+            var zip = new AdmZip(targetPath),
+                entries = zip.getEntries();
+            for (var i = 0; i < entries.length; ++i) {
+                if (extensionOf(entries[i].entryName) === 'mobileprovision') {
+                    zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
+                    return callback(tmpDir + '/' + entries[i].name);
+                }
+            }
+            return analyseFailed('No provisionning found in ' + entries[i].name);
         }
+        case 'app': { // Read the .app (only at the root level), and analyse it
+            return fs.readdir(targetPath, function (err, files) {
+                if (err) { return analyseFailed('Error while reading .app : ' + err); }
+                for (var i = 0; i < files.length; ++i) {
+                    console.log(files[i]);
+                    if (extensionOf(files[i]) === 'mobileprovision') {
+                        return callback(targetPath + '/' + files[i]);
+                    }
+                }
+                return analyseFailed('No provisionning found in ' + filename);
+            });
+        }
+        case 'mobileprovision': // Just analyse the .mobileprovision
+            return callback(targetPath);
+        default:
+            break;
     }
-    $certif_dropzone.ondragleave = function (e) {
-        $(this).css('border-color', 'red');
-    }
+}
 
-    //Event for when the client drops file in the dropzone.
+function manageProvisionningDropzone() {
+    var $ipa_dropzone = $('#dropzone')[0];
+
     $ipa_dropzone.ondrop = function (e) {
         e.preventDefault();
         resetUI();
+
         // Get srcPath and filename
         var srcPath = e.dataTransfer.files[0].path;
         srcPath = srcPath.replace(/\\/g, "/");
@@ -177,47 +158,18 @@ $( document ).ready(function() {
         }
 
         // Create tmp directory which should be unique
-        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
+        var tmpDir = process.cwd() + '/tmp/' + new Date().getTime() + Math.random();
         fs.mkdirSync(tmpDir);
 
         // Copy file in tmpDir
         var targetPath = tmpDir + '/' + filename;
         console.log('targetPath =', targetPath);
-        copyFile(srcPath, tmpDir + '/' + filename, function (err) {
-            if (err !== null) {
-                return analyseFailed('Error while copying :' + err);
-            } else {
-                console.info('-----------------------------------');
-                // Check file extension
-                switch (extensionOf(filename)) {
-                    case 'ipa': { // Unzip .ipa, extract the .mobileprovision, and analyse it
-                        var zip = new AdmZip(targetPath),
-                            entries = zip.getEntries();
-                        for (var i = 0; i < entries.length; ++i) {
-                            if (extensionOf(entries[i].entryName) === 'mobileprovision') {
-                                zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
-                                return analyseProvisionning(tmpDir + '/' + entries[i].name);
-                            }
-                        }
-                        return analyseFailed('No provisionning found in ' + entries[i].name);
-                    }
-                    case 'app': { // Read the .app, copy the .mobileprovision, and analyse it
-                        var files = fs.readdirSync(targetPath); // We check only at the root of .app
-                        for (var i = 0; i < files.length; ++i) {
-                            if (extensionOf(files[i]) === 'mobileprovision') {
-                                return analyseProvisionning(tmpDir + '/' + files[i]);
-                            }
-                        }
-                        return analyseFailed('Error while copying provisionning :', err);
-                    }
-                    case 'mobileprovision': { // Just analyse the .mobileprovision
-                        return analyseProvisionning(targetPath);
-                    }
-                    default:
-                        alert('FU !');
-                        return;
-                }
-            }
+
+        fs.copy(srcPath, targetPath, function (err) {
+            if (err) { return analyseFailed('Error while copying :' + err); }
+            extractProvisionning(filename, targetPath, tmpDir, function (provisionningPath) {
+                analyseProvisionning(provisionningPath);
+            });
         });
     }
 
@@ -231,21 +183,32 @@ $( document ).ready(function() {
     $ipa_dropzone.ondragleave = function (e) {
         $(this).css('border-color', 'red');
     }
-});
-
-//Function for switching tabs inside the application.
-function go(tab) {
-	var speed = 1500;
-	if (tab == current_tab) return;
-	else current_tab = tab;
-	$('section').fadeOut(speed, function () {
-		setTimeout(function () {
-			$('section#' + tab ).fadeIn(speed);
-		},speed);
-	});
 }
 
-//Load settings function.
+//
+// Certificate management
+//
+function manageCertificateDropzone() {
+    var $certif_dropzone = $('#certif_dropzone')[0];
+
+    $certif_dropzone.ondrop = function (e) {
+        e.preventDefault();
+    }
+    $certif_dropzone.ondragenter = function (e) {
+        $(this).css('border-color', 'yellow');
+        if (e.dataTransfer.files.length > 1) {
+            alert('NO');
+        }
+    }
+    $certif_dropzone.ondragleave = function (e) {
+        $(this).css('border-color', 'red');
+    }
+}
+
+//
+// Settings management
+//
+// Load settings function.
 function loadSettings() {
 	console.log('Loaded settings');
 	var port_setting = document.getElementById('port_setting');
@@ -277,7 +240,7 @@ function loadSettings() {
 	localStorage.setItem('settings', JSON.stringify(settings));
 }
 
-//A function for extracting settings.
+// A function for extracting settings.
 function extractSettings() {
 	console.log('Extracted settings.');
 	var port_setting = document.getElementById('port_setting').value;
@@ -290,15 +253,10 @@ function extractSettings() {
 	localStorage.setItem('settings', JSON.stringify(settings));
 }
 
-//A feedback function to provide feedback to the client.
-function feedback(msg) {
-	var speed = 400;
-	var wait = 2000;
-	
-	$('div#alert').html(msg);
-	$('div#alert').fadeIn(speed, function () {
-		setTimeout(function () {
-			$('div#alert').fadeOut(speed);
-		}, wait);
-	});
+//
+// Helper
+//
+// Extract extension of a filename e.g. blabla.zip => zip
+function extensionOf(filename) {
+    return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
 }
