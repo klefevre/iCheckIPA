@@ -158,7 +158,7 @@ function manageProvisionningDropzone() {
         }
 
         // Create tmp directory which should be unique
-        var tmpDir = process.cwd() + '/tmp/' + new Date().getTime() + Math.random();
+        var tmpDir = process.cwd() + '../tmp/' + new Date().getTime() + Math.random();
         fs.mkdirSync(tmpDir);
 
         // Copy file in tmpDir
