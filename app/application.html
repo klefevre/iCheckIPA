@@ -13,6 +13,7 @@
     </script>
 </head>
 <body>
+<!-- TOP BAR -->
 <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -26,13 +27,13 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">Default</a></li>
-                <!--<li><a href="../navbar-static-top/">Static top</a></li>-->
-                <!--<li><a href="../navbar-fixed-top/">Fixed top</a></li>-->
+                <li><a href="#settings" data-toggle="modal"><img src="images/icon_settings.png" alt="Settings" width="37" height="40"></a></li>
             </ul>
         </div>
     </div>
 </div>
+
+<!-- CONTENT -->
 <div class="container-fluid">
     <div class="row show-grid">
         <div class="col-xs-5">
@@ -44,45 +45,101 @@
             </section>
         </div>
         <div class="col-xs-7">
-            <div id="panel-results" class="panel panel-default"">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Information</h3>
+
+            <!-- NAV TABS -->
+            <ul id="tabs-results" class="nav nav-tabs">
+                <li class="active"><a href="#resume">Resume</a></li>
+                <li><a href="#udid">UDID</a></li>
+                <li><a href="#raw">Raw</a></li>
+            </ul>
+
+            <!-- TAB PANES -->
+            <div class="tab-content">
+
+                <!-- RESUME PANE -->
+                <div class="tab-pane active" id="resume">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul id="list-entitlements" class="list-group">
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <ul id="list-entitlements" class="list-group">
-                    </ul>
+
+                <!-- UDID PANE -->
+                <div class="tab-pane" id="udid">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul id="list-udid" class="list-group">
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-heading">
-                    <h3 class="panel-title">UDID</h3>
+
+                <!-- RAW PANE -->
+                <div class="tab-pane" id="raw">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul id="list-raw" class="list-group">
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                                <li class="list-group-item">blablablabla</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <ul id="list-udid" class="list-group">
-                </ul>
+
             </div>
         </div>
     </div>
 </div>
 
-<!--<h1>iCheckIPA</h1>-->
-<!---->
-<!--<ul id="menubar">-->
-<!--<li class="dropzone"><i class="icon-home"> </i></li>-->
-<!--<li class="connection"><i class="icon-cog"> </i></li>-->
-<!--&lt;!&ndash;<li class="options">&#9997;</li>&ndash;&gt;-->
-<!--</ul>-->
-<!--</header>-->
+<!-- MODAL -->
+<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Settings</h4>
+            </div>
+            <div class="modal-body">
 
-<!--<section id="left_content">-->
-<!--<div id="container">-->
+                <h4>UDID</h4>
+                <div id="input-group-udid" class="input-group">
+                    <span class="input-group-btn">
+                        <button id="button-add-row-0" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </span>
+                    <input type="text" class="form-control" placeholder="UDID">
+                    <span class="input-group-btn">
+                         <button id="button-del-row-0" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                    </span>
+                </div>
 
-<!--<section id="certif_dropzone" class="dropzone">-->
-<!--<div class="drop_message">Drop your p12 certificate here</div>-->
-<!--</section>-->
-<!--</div>-->
-<!--</section>-->
+                <h4>Cache</h4>
+                <button id="button-settings-delete-cache" type="button" class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="right" data-content="Your cache has been deleted.">
+                    <span class="glyphicon glyphicon-trash"></span> Delete cache
+                </button>
 
-<!--<section id="right_content">-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="button-settings-save" type="button" class="btn btn-primary">Save changes</button>
+                </div>
 
-<!--</section>-->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <section style="display:none" id="connection">
     <h3>Options - Dropzone</h3>
@@ -98,8 +155,11 @@
         </ul>
     </div>
 </section>
+
+<!-- SCRIPTS -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="js/frontend.js"></script>
+<script src="js/backend.js"></script>
 </body>
 </html>

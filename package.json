@@ -28,7 +28,8 @@
     "grunt-contrib-compress": "~0.5.2",
     "fs-extra": "~0.8.1",
     "plist": "~0.4.3",
-    "adm-zip": "~0.4.4"
+    "adm-zip": "~0.4.4",
+    "rimraf": "~2.2.6"
   },
   "engines": {
     "node": ">=0.8.0"

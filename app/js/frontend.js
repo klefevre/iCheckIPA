@@ -1,3 +1,7 @@
+/**
+ * Created by Kevin Lefevre on 27/02/2014.
+ */
+
 var http = require('http'),
     fs = require('fs-extra'),
     gui = require('nw.gui'),
@@ -5,16 +9,47 @@ var http = require('http'),
     url = require('url'),
     AdmZip = require('adm-zip'),
     plist = require('plist'),
+    rimraf = require('rimraf'),
     exec = require('child_process').exec;
 
 var win = gui.Window.get();
 win.showDevTools();
 
-$(document).ready(function() {
+$(document).ready(function () {
     //Load the settings and start the backend webserver.
     loadSettings();
 
-    $('#panel-results').css('visibility', 'hidden');
+    $('#tabs-results a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $('#input-group-udid button').click(function (e) {
+        if ($(this).hasClass('btn-danger')) {
+            console.log('delete');
+        } else {
+            console.log('add');
+        }
+    });
+
+    $('#button-settings-delete-cache').click(function (e) {
+       fs.exists(process.cwd() + '/../tmp/', function (exist) {
+            if (exist) {
+                rimraf(process.cwd() + '/../tmp/', function (err) {
+                    if (err) { return console.error('Err =', err); }
+
+                    $(this).popover('show');
+                });
+            } else {
+                console.log('already deleted');
+            }
+        });
+    });
+
+    $('#button-settings-save').click(function (e) {
+        console.log('save');
+        $("#settings").modal('hide');
+    });
 
     manageProvisionningDropzone();
     manageCertificateDropzone();
@@ -23,10 +58,15 @@ $(document).ready(function() {
 //
 // UI Management
 //
+
 function resetUI() {
     $('#panel-results').css('visibility', 'hidden');
     $('#list-entitlements').empty();
     $('#list-udid').empty();
+}
+
+function displayCertificateResults(results) {
+
 }
 
 function displayResults(results) {
@@ -107,6 +147,7 @@ function extractProvisionning(filename, targetPath, tmpDir, callback) {
         case 'ipa': { // Unzip .ipa, extract the .mobileprovision, and analyse it
             var zip = new AdmZip(targetPath),
                 entries = zip.getEntries();
+
             for (var i = 0; i < entries.length; ++i) {
                 if (extensionOf(entries[i].entryName) === 'mobileprovision') {
                     zip.extractEntryTo(entries[i].entryName, tmpDir, false, true);
@@ -161,7 +202,11 @@ function manageProvisionningDropzone() {
                 return false;
         }
 
+
         // Create tmp directory which should be unique
+        if (!fs.existsSync(process.cwd() + '/../tmp/')) {
+            fs.mkdirSync(process.cwd() + '/../tmp/');
+        }
         var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
         fs.mkdirSync(tmpDir);
 
@@ -171,10 +216,11 @@ function manageProvisionningDropzone() {
 
         fs.copy(srcPath, targetPath, function (err) {
             if (err) { return analyseFailed('Error while copying :' + err); }
-            extractProvisionning(filename, targetPath, tmpDir, function (err, provisionningPath) {
-                if (err) { return analyseFailed(err); }
-                analyseProvisionning(provisionningPath);
-            });
+            extractProvisionning(filename, targetPath, tmpDir,
+                function (err, provisionningPath) {
+                    if (err) { return analyseFailed(err); }
+                    analyseProvisionning(provisionningPath);
+                });
         });
     }
 
@@ -191,9 +237,18 @@ function manageProvisionningDropzone() {
 // Certificate management
 //
 function analyseCertificate(pemPath, callback) {
-    fs.readFile(pemPath, 'utf8', function (err, data) {
-        if (err) { return console.log(err); }
+    fs.readFile(pemPath, function (err, data) {
+        if (err) { return callback(err, null); }
+
+        console.log('- analyseCertificate --------------------');
         console.log(data);
+
+        var BEGIN_CERTIF = '-----BEGIN CERTIFICATE-----',
+            END_CERTIF = '-----END CERTIFICATE-----',
+            certArr = substringBetweenStrings(data, BEGIN_CERTIF, END_CERTIF);
+        console.log(certArr);
+
+        return callback(null, certArr);
     });
 }
 
@@ -248,6 +303,9 @@ function manageCertificateDropzone() {
         }
 
         // Create tmp directory which should be unique
+        if (!fs.existsSync(process.cwd() + '/../tmp/')) {
+            fs.mkdirSync(process.cwd() + '/../tmp/');
+        }
         var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
         fs.mkdirSync(tmpDir);
 
@@ -258,7 +316,9 @@ function manageCertificateDropzone() {
         fs.copy(srcPath, targetPath, function (err) {
             if (err) { return analyseFailed('Error while copying ' + filename + ' : ' + err); }
             extractCertificate(filename, targetPath, function(err, pemPath) {
-                return analyseCertificate(pemPath);
+                return analyseCertificate(pemPath, function (err, certArr) {
+                   displayCertificateResults(certArr);
+                });
             });
         });
     }
@@ -327,4 +387,20 @@ function extractSettings() {
 // Extract extension of a filename e.g. blabla.zip => zip
 function extensionOf(filename) {
     return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
+}
+
+// Extract substrings between two string e.g. "TOTOTITITATA", "TOTO", "TATA" = [TITI]
+function substringBetweenStrings(str, firstStr, secondStr) {
+    var retArr = new Array(),
+        tmpStr = str,
+        i = 0,
+        beginIdx,
+        endIdx;
+
+    while ((beginIdx = tmpStr.indexOf(firstStr)) > -1 &&
+        ((endIdx = tmpStr.indexOf(secondStr)) > -1)) {
+        retArr[i++] = tmpStr.substring(beginIdx + firstStr.length + 1, endIdx - 1);
+        tmpStr = tmpStr.substring(endIdx + secondStr.length, tmpStr.length);
+    }
+    return retArr;
 }
