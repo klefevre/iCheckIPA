@@ -58,13 +58,17 @@ $(window).load(function () {
 //    manageCertificateDropzone();
 
     $('.dropzone').on('dragenter dragleave drop', function (e) {
+        e.stopPropagation();
         e.preventDefault();
+
         $this = $(this);
+
         switch (e.type) {
             case 'dragenter':
                 console.log('e =', e);
                 console.log('e.dataTransfer =', e.dataTransfer);
-                if (e.dataTransfer.files.length == 1 && e.dataTransfer.files[0].types == 'Files') {
+                return;
+                if (!(e.originalEvent.dataTransfer.files.length == 1 && e.originalEvent.dataTransfer.files[0].types == 'Files')) {
                     console.warning('Only 1 file could be accepted at once');
                     return;
                 }
@@ -77,27 +81,31 @@ $(window).load(function () {
                 $this.removeClass('hover');
 
                 // Get srcPath and filename
-                var srcPath = e.dataTransfer.files[0].path;
+                var srcPath = e.originalEvent.dataTransfer.files[0].path;
                 srcPath = srcPath.replace(/\\/g, '/');
                 var filename = srcPath.split('/')[srcPath.split('/').length - 1];
-                console.log('srcPath =', e.dataTransfer.files[0].path);
+                console.log('srcPath =', e.originalEvent.dataTransfer.files[0].path);
                 console.log('filename =', filename);
 
                 switch ($this.attr('id')) {
                     case 'dropzone':
-                        parseProvisionning(target, function (file, err) {
+                        parseProvisionning(srcPath, function (file, err) {
                             if (err) {
                                 analyseFailed(err);
                                 return;
                             }
+
+                            console.log(file);
                         });
                         break;
                     case 'certif_dropzone':
-                        parseCertificate(target, function (file, err) {
+                        parseCertificate(srcPath, function (file, err) {
                             if (err) {
                                 analyseFailed(err);
                                 return;
                             }
+
+                            console.log(file);
                         });
                         break;
                 }

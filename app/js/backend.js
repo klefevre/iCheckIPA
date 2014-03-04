@@ -39,13 +39,14 @@
 
 
     function parseCertificate(target, callback) {
-        fs.readJsonFile('../mocks/certificate.json', function(file, err) {
+        fs.readJsonFile('../../mocks/certificate.json', function(file, err) {
             callback(file, err);
+
         });
     }
 
 function parseProvisionning(target, callback) {
-    fs.readJsonFile('../mocks/provisionning.json', function(file, err) {
+    fs.readJsonFile('../../mocks/provisionning.json', function(file, err) {
         callback(file, err);
     });
 }
