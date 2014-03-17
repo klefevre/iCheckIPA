@@ -25,18 +25,29 @@
  */
 
 var Certificate = {},
-    Provisionning = {};
+  Provisionning = {};
 
 $(window).load(function () {
-    //Load the settings and start the backend webserver.
-    loadSettings();
+  //Load the settings and start the backend webserver.
+  loadSettings();
 
-    $('#tabs-results a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
+  $('#carousel-example-generic').on('slid.bs.carousel', function () {
+    var $this = $(this);
+//    if($('.carousel-inner .item:first').hasClass('active')) {
+//      $this.children('.left.carousel-control').hide();
+//    } else if($('.carousel-inner .item:last').hasClass('active')) {
+//      $this.children('.right.carousel-control').hide();
+//    } else {
+//      $this.children('.carousel-control').show();
+//    }
+  });
 
-    $('#button-settings-delete-cache').click(function (e) {
+  $('#tabs-results a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  });
+
+  $('#button-settings-delete-cache').click(function (e) {
 //       fs.exists(process.cwd() + '/../tmp/', function (exist) {
 //            if (exist) {
 //                rimraf(process.cwd() + '/../tmp/', function (err) {
@@ -48,70 +59,68 @@ $(window).load(function () {
 //                console.log('already deleted');
 //            }
 //        });
-    });
+  });
 
-    $('#button-settings-save').click(function (e) {
-        $("#settings").modal('hide');
-    });
+  $('#button-settings-save').click(function (e) {
+    $("#settings").modal('hide');
+  });
 
 //    manageProvisionningDropzone();
 //    manageCertificateDropzone();
 
-    $('.dropzone').on('dragenter dragleave drop', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
+  $('.dropzone').on('dragenter dragleave drop', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
 
-        $this = $(this);
+    $this = $(this);
 
-        switch (e.type) {
-            case 'dragenter':
-                console.log('e =', e);
-                console.log('e.dataTransfer =', e.dataTransfer);
-                return;
-                if (!(e.originalEvent.dataTransfer.files.length == 1 && e.originalEvent.dataTransfer.files[0].types == 'Files')) {
-                    console.warning('Only 1 file could be accepted at once');
-                    return;
-                }
-                $this.addClass('hover');
-                break;
-            case 'dragleave':
-                $this.removeClass('hover');
-                break;
-            case 'drop':
-                $this.removeClass('hover');
-
-                // Get srcPath and filename
-                var srcPath = e.originalEvent.dataTransfer.files[0].path;
-                srcPath = srcPath.replace(/\\/g, '/');
-                var filename = srcPath.split('/')[srcPath.split('/').length - 1];
-                console.log('srcPath =', e.originalEvent.dataTransfer.files[0].path);
-                console.log('filename =', filename);
-
-                switch ($this.attr('id')) {
-                    case 'dropzone':
-                        parseProvisionning(srcPath, function (file, err) {
-                            if (err) {
-                                analyseFailed(err);
-                                return;
-                            }
-
-                            console.log(file);
-                        });
-                        break;
-                    case 'certif_dropzone':
-                        parseCertificate(srcPath, function (file, err) {
-                            if (err) {
-                                analyseFailed(err);
-                                return;
-                            }
-
-                            console.log(file);
-                        });
-                        break;
-                }
-                break;
+    switch (e.type) {
+      case 'dragenter':
+        console.log('e.originalEvent.dataTransfer.files.length =', e.originalEvent.dataTransfer.files.length);
+        if (e.originalEvent.dataTransfer.files.length > 1) {
+          console.log('Only 1 file could be accepted at once');
+          return;
         }
-    });
+        $this.addClass('hover');
+        break;
+      case 'dragleave':
+        $this.removeClass('hover');
+        break;
+      case 'drop':
+        $this.removeClass('hover');
+
+        // Get srcPath and filename
+        var srcPath = e.originalEvent.dataTransfer.files[0].path;
+        srcPath = srcPath.replace(/\\/g, '/');
+        var filename = srcPath.split('/')[srcPath.split('/').length - 1];
+        console.log('srcPath =', e.originalEvent.dataTransfer.files[0].path);
+        console.log('filename =', filename);
+
+        switch ($this.attr('id')) {
+          case 'prov_dropzone':
+            parseProvisionning(srcPath, function (err, file) {
+              if (err) {
+                analyseFailed(err);
+                return;
+              }
+
+              displayProvisionningResults(file);
+            });
+            break;
+          case 'cert_dropzone':
+            parseCertificate(srcPath, function (err, file) {
+              if (err) {
+                analyseFailed(err);
+                return;
+              }
+
+              console.log(file);
+            });
+            break;
+        }
+        break;
+    }
+  });
 });
 
 //
@@ -119,63 +128,65 @@ $(window).load(function () {
 //
 
 function resetUI() {
-    $('#panel-results').css('visibility', 'hidden');
-    $('#list-entitlements').empty();
-    $('#list-udid').empty();
+  $('#panel-results').css('visibility', 'hidden');
+  $('#list-entitlements').empty();
+  $('#list-udid').empty();
 }
 
 function displayCertificateResults(results) {
 
 }
 
+function displayProvisionningResults(results) {
+  // Entitlements
+  obj = results['Entitlements'];
+  $list = $('#list-entitlements');
+
+  // Debug
+  text = 'Debug : ' + ((obj['get-task-allow'] === undefined ||
+    obj['get-task-allow'] === null) ? '?' : (obj['get-task-allow'] ? 'true' : 'false'));
+  $list.append($('<li class="list-group-item">').append(text));
+
+  // Push
+  text = 'Push : ' + ((obj['aps-environment'] === undefined ||
+    obj['aps-environment'] === null) ? 'NO' : obj['aps-environment']);
+  $list.append($('<li class="list-group-item">').append(text));
+
+  // Conclusion
+  text = 'Conclusion : ';
+  if (results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
+    text += 'Development';
+  } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
+    text += 'AdHoc';
+  } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionsAllDevices'] !== undefined) {
+    text += 'InHouse';
+  } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] === undefined) {
+    text += 'AppStore';
+  } else {
+    text += 'Unknown';
+  }
+  $list.append($('<li class="list-group-item">').append(text));
+
+  // UDID
+  obj = results['ProvisionedDevices'];
+  $list = $('#list-udid');
+  if (obj !== undefined && obj !== null) {
+    for (var i = 0; i < obj.length; ++i) {
+      $list.append($('<li class="list-group-item">').append(obj[i]));
+    }
+  }
+}
+
 function displayResults(results) {
-    var $list;
-    var obj;
-    var text;
+  var $list;
+  var obj;
+  var text;
 
-    $('#panel-results').css('visibility', 'visible');
-
-    // Entitlements
-    obj = results['Entitlements'];
-    $list = $('#list-entitlements');
-
-    // Debug
-    text = 'Debug : ' + ((obj['get-task-allow'] === undefined ||
-                          obj['get-task-allow'] === null) ? '?' : (obj['get-task-allow'] ? 'true' : 'false'));
-    $list.append($('<li class="list-group-item">').append(text));
-
-    // Push
-    text = 'Push : ' + ((obj['aps-environment'] === undefined ||
-                         obj['aps-environment'] === null) ? 'NO' : obj['aps-environment']);
-    $list.append($('<li class="list-group-item">').append(text));
-
-    // Conclusion
-    text = 'Conclusion : ';
-    if (results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
-        text += 'Development';
-    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] !== undefined) {
-        text += 'AdHoc';
-    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionsAllDevices'] !== undefined) {
-        text += 'InHouse';
-    } else if (!results['Entitlements']['get-task-allow'] && results['ProvisionedDevices'] === undefined) {
-        text += 'AppStore';
-    } else {
-        text += 'Unknown';
-    }
-    $list.append($('<li class="list-group-item">').append(text));
-
-    // UDID
-    obj = results['ProvisionedDevices'];
-    $list = $('#list-udid');
-    if (obj !== undefined && obj !== null) {
-        for (var i = 0; i < obj.length; ++i) {
-            $list.append($('<li class="list-group-item">').append(obj[i]));
-        }
-    }
+  $('#panel-results').css('visibility', 'visible');
 }
 
 function analyseFailed(err) {
-    alert(err);
+  alert(err);
 }
 
 function manageProvisionningDropzone() {
@@ -292,47 +303,47 @@ function manageCertificateDropzone() {
 //
 // Load settings function.
 function loadSettings() {
-	console.log('Loaded settings');
-	var port_setting = document.getElementById('port_setting');
-	var name_setting = document.getElementById('name_setting');
-	
-	if (!(localStorage.settings)) {
-		var settings = {
-				port : 3000,
-				name : "Dropzone"
-		}
-	}
-	else {
-		var settings = JSON.parse(localStorage.settings);
-	}
-	
-	port_setting.value = settings.port;
-	name_setting.value = settings.name;
-	
-	port_setting.onkeyup = function (e) {
-		if (e.which == 13) {
-			extractSettings();
-		}
-	}
-	name_setting.onkeyup = function (e) {
-		if (e.which == 13) {
-			extractSettings();
-		}
-	}
-	localStorage.setItem('settings', JSON.stringify(settings));
+  console.log('Loaded settings');
+  var port_setting = document.getElementById('port_setting');
+  var name_setting = document.getElementById('name_setting');
+
+  if (!(localStorage.settings)) {
+    var settings = {
+      port : 3000,
+      name : "Dropzone"
+    }
+  }
+  else {
+    var settings = JSON.parse(localStorage.settings);
+  }
+
+  port_setting.value = settings.port;
+  name_setting.value = settings.name;
+
+  port_setting.onkeyup = function (e) {
+    if (e.which == 13) {
+      extractSettings();
+    }
+  }
+  name_setting.onkeyup = function (e) {
+    if (e.which == 13) {
+      extractSettings();
+    }
+  }
+  localStorage.setItem('settings', JSON.stringify(settings));
 }
 
 // A function for extracting settings.
 function extractSettings() {
-	console.log('Extracted settings.');
-	var port_setting = document.getElementById('port_setting').value;
-	var name_setting = document.getElementById('name_setting').value;
-	
-	var settings = {
-			port : port_setting,
-			name : name_setting
-	}
-	localStorage.setItem('settings', JSON.stringify(settings));
+  console.log('Extracted settings.');
+  var port_setting = document.getElementById('port_setting').value;
+  var name_setting = document.getElementById('name_setting').value;
+
+  var settings = {
+    port : port_setting,
+    name : name_setting
+  }
+  localStorage.setItem('settings', JSON.stringify(settings));
 }
 
 //
@@ -340,21 +351,21 @@ function extractSettings() {
 //
 // Extract extension of a filename e.g. blabla.zip => zip
 function extensionOf(filename) {
-    return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
+  return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
 }
 
 // Extract substrings between two string e.g. "TOTOTITITATA", "TOTO", "TATA" = [TITI]
 function substringBetweenStrings(str, firstStr, secondStr) {
-    var retArr = new Array(),
-        tmpStr = str,
-        i = 0,
-        beginIdx,
-        endIdx;
+  var retArr = new Array(),
+    tmpStr = str,
+    i = 0,
+    beginIdx,
+    endIdx;
 
-    while ((beginIdx = tmpStr.indexOf(firstStr)) > -1 &&
-        ((endIdx = tmpStr.indexOf(secondStr)) > -1)) {
-        retArr[i++] = tmpStr.substring(beginIdx + firstStr.length + 1, endIdx - 1);
-        tmpStr = tmpStr.substring(endIdx + secondStr.length, tmpStr.length);
-    }
-    return retArr;
+  while ((beginIdx = tmpStr.indexOf(firstStr)) > -1 &&
+    ((endIdx = tmpStr.indexOf(secondStr)) > -1)) {
+    retArr[i++] = tmpStr.substring(beginIdx + firstStr.length + 1, endIdx - 1);
+    tmpStr = tmpStr.substring(endIdx + secondStr.length, tmpStr.length);
+  }
+  return retArr;
 }

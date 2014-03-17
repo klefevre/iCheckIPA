@@ -6,7 +6,6 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="fonts/fontawesome.css" ret="stylesheet">
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" ret="stylesheet">
     <script type="text/javascript">
         window.ondragover = function(e) { e.preventDefault(); return false };
         window.ondrop = function(e) { e.preventDefault(); return false };
@@ -27,107 +26,135 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#settings" data-toggle="modal"><img src="images/icon_settings.png" alt="Settings" width="37" height="40"></a></li>
+                <li><a href="#settings" data-toggle="modal"><img src="images/icon_settings.png" alt="Settings" width="22" height="25"></a></li>
             </ul>
         </div>
     </div>
 </div>
 
-<!-- CONTENT -->
-<div class="container-fluid">
-    <div class="row show-grid">
 
-        <!-- LEFT PANEL -->
-        <div class="col-xs-5">
-            <div class="row">
-                <div class="col-xs-12">
-                <div id="dropzone" class="dropzone">
+<!--<div id="my-container">-->
+
+<!--&lt;!&ndash; NAV TABS &ndash;&gt;-->
+<!--<ul id="tabs-kind" class="nav nav-tabs">-->
+    <!--<li class="active"><a href="#provisionning">Provisionning</a></li>-->
+    <!--<li><a href="#certicate">Certificate</a></li>-->
+<!--</ul>-->
+    <div class="my-contents">
+                <h4>Drag your .ipa, .app or provisionning here</h4>
+                <div id="prov_dropzone" class="dropzone"></div>
+
+                <h4>Drag your .p12 or .pem here</h4>
+                <div id="cert_dropzone" class="dropzone"></div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                 </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-
-                <div id="certif_dropzone" class="dropzone">
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIGHT PANEL -->
-        <div class="col-xs-7">
-
-            <!-- NAV TABS -->
-            <ul id="tabs-results" class="nav nav-tabs">
-                <li class="active"><a href="#resume">Resume</a></li>
-                <li><a href="#udid">UDID</a></li>
-                <li><a href="#raw">Raw</a></li>
-                <li><a href="#plist">Plist</a></li>
-            </ul>
-
-            <!-- TAB PANES -->
-            <div class="tab-content">
-
-                <!-- RESUME PANE -->
-                <div class="tab-pane active" id="resume">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-entitlements" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- UDID PANE -->
-                <div class="tab-pane" id="udid">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-udid" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RAW PANE -->
-                <div class="tab-pane" id="raw">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-raw" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RAW PANE -->
-                <div class="tab-pane" id="plist">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-raw" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
-</div>
+        <div class="my-contents">
+                <div class="tab-content">
+                    <!-- PROVISIONNING PANE -->
+                    <div id="provisionning" class="tab-pane active">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <!--<div id="dropzone" class="dropzone" style="width:200px;"></div>-->
+
+                                <!-- NAV TABS -->
+                                <ul id="tabs-results" class="nav nav-tabs">
+                                    <li class="active"><a href="#resume">Resume</a></li>
+                                    <li><a href="#udid">UDID</a></li>
+                                    <li><a href="#raw">Raw</a></li>
+                                    <li><a href="#plist">Plist</a></li>
+                                </ul>
+
+                                <!-- TAB PANES -->
+                                <div class="tab-content">
+
+                                    <!-- RESUME PANE -->
+                                    <div class="tab-pane active" id="resume">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <ul id="list-entitlements" class="list-group">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- UDID PANE -->
+                                    <div class="tab-pane" id="udid">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <ul id="list-udid" class="list-group">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RAW PANE -->
+                                    <div class="tab-pane" id="raw">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <ul id="list-raw" class="list-group">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RAW PANE -->
+                                    <div class="tab-pane" id="plist">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <ul id="list-raw" class="list-group">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--</div>-->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CERTIFICATE PANE -->
+                    <div id="certificate" class="tab-pane">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+    </div>
+<!--</div>-->
+<!--<div class="container-fluid">-->
+    <!--<div class="row show-grid">-->
+
+        <!--&lt;!&ndash; LEFT PANEL &ndash;&gt;-->
+        <!--<div class="col-xs-6">-->
+            <!--<div id="provisionning_dropzone" class="dropzone"></div>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash; RIGHT PANEL &ndash;&gt;-->
+        <!--<div class="col-xs-6">-->
+            <!--<div id="certificate_dropzone" class="dropzone"></div>-->
+
+            <!--<div class="row">-->
+                <!--<div class="col-xs-12">-->
+                    <!--<div class="input-group">-->
+                        <!--<span class="input-group-addon">Password</span>-->
+                        <!--<input type="text" class="form-control" placeholder="Password">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div id="certif_dropzone" class="dropzone">-->
+
 
 <!-- MODAL -->
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -138,17 +165,6 @@
                 <h4 class="modal-title" id="myModalLabel">Settings</h4>
             </div>
             <div class="modal-body">
-
-                <h4>UDID</h4>
-                <div id="input-group-udid" class="input-group">
-                    <span class="input-group-btn">
-                        <button id="button-add-row-0" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                    </span>
-                    <input type="text" class="form-control" placeholder="UDID">
-                    <span class="input-group-btn">
-                         <button id="button-del-row-0" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span></button>
-                    </span>
-                </div>
 
                 <h4>Cache</h4>
                 <button id="button-settings-delete-cache" type="button" class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="right" data-content="Your cache has been deleted.">
