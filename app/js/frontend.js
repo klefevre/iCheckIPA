@@ -24,8 +24,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var Certificate = {},
-  Provisionning = {};
+var g_certificate,
+    g_provisionning
 
 $(window).load(function () {
   //Load the settings and start the backend webserver.
@@ -42,11 +42,6 @@ $(window).load(function () {
 //    }
   });
 
-  $('#tabs-results a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
   $('#button-settings-delete-cache').click(function (e) {
 //       fs.exists(process.cwd() + '/../tmp/', function (exist) {
 //            if (exist) {
@@ -61,12 +56,8 @@ $(window).load(function () {
 //        });
   });
 
-  $('#button-settings-save').click(function (e) {
-    $("#settings").modal('hide');
-  });
-
-//    manageProvisionningDropzone();
-//    manageCertificateDropzone();
+  var provPath,
+      certPath
 
   $('.dropzone').on('dragenter dragleave drop', function (e) {
     e.stopPropagation();
@@ -91,37 +82,124 @@ $(window).load(function () {
 
         // Get srcPath and filename
         var srcPath = e.originalEvent.dataTransfer.files[0].path;
-        srcPath = srcPath.replace(/\\/g, '/');
         var filename = srcPath.split('/')[srcPath.split('/').length - 1];
+
         console.log('srcPath =', e.originalEvent.dataTransfer.files[0].path);
-        console.log('filename =', filename);
 
         switch ($this.attr('id')) {
+
           case 'prov_dropzone':
-            parseProvisionning(srcPath, function (err, file) {
-              if (err) {
-                analyseFailed(err);
-                return;
-              }
-
-              displayProvisionningResults(file);
-            });
+            switch (extensionOf(filename)) {
+              case 'ipa': case 'zip': case 'mobileprovision': case 'app':
+                displayProvisionningInfos((provPath = srcPath), false);
+                break;
+              default:
+                displayProvisionningInfos(srcPath, true);
+                break;
+            }
             break;
-          case 'cert_dropzone':
-            parseCertificate(srcPath, function (err, file) {
-              if (err) {
-                analyseFailed(err);
-                return;
-              }
 
-              console.log(file);
-            });
+          case 'cert_dropzone':
+            switch (extensionOf(filename)) {
+              case 'p12': case 'pem':
+                displayCertificateInfos((certPath = srcPath), false);
+                break;
+              default:
+                displayCertificateInfos(srcPath, true);
+                break;
+            }
             break;
         }
         break;
     }
   });
+
+  $('#start-analyse-button').click(function (e) {
+    if (provPath) {
+      parseProvisionning(provPath, function (err, file) {
+        console.log('err =', err, '- file =', file);
+        if (err) { return analyseFailed(err); }
+
+        // Unlock tabs
+        $('#tabs-results a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+        });
+
+        // Display results
+        displayProvisionningResults(file);
+      });
+    }
+    if (certPath) {
+      parseCertificate(certPath, $('#password-input').val(), function (err, file) {
+        if (err) { return analyseFailed(err); }
+
+        // Unlock tabs
+        $('#tabs-results a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+        });
+
+        // Display results
+        displayCertificateResults(file);
+      });
+    }
+  });
 });
+
+function displayError(selector, path) {
+
+}
+
+function displayProvisionningInfos(path, isError) {
+  var filename = path.split('/')[path.split('/').length - 1];
+  var text = $('#prov_dropzone > span');
+
+  // Remove all className beginning by 'label-'
+  text[0].className = text[0].className.replace(/\blabel-.*?\b/g, '');
+  text.text('');
+
+  if (!isError) {
+    // Display info
+    text.addClass('label-success');
+    text.append('<u>Filename :</i> '+filename);
+    text.append('\n<u>Path :</i> '+path);
+    text.append('\n<u>Kind of analyse :</i> '+extensionOf(filename));
+  } else {
+    // Display error
+    text.addClass('label-danger');
+    text.append('<u>ERROR</u> : This kind of file is not supported : only <i>.ipa</i>, <i>.zip</i>,\n<i>.mobileprovision</i> or <i>.app</i> is supported.\n');
+    text.append('\n<u>Filename :</u> '+filename);
+    text.append('\n<u>Path :</u> '+path);
+    text.append('\n<u>Kind of analyse :</u> '+'<i>Undeterminated</i>');
+  }
+}
+
+function displayCertificateInfos(path, isError) {
+  var filename = path.split('/')[path.split('/').length - 1];
+  var text = $('#cert_dropzone > span');
+
+  // Remove all className beginning by 'label-'
+  text[0].className = text[0].className.replace(/\blabel-.*?\b/g, '');
+  text.text('');
+
+  if (!isError) {
+    // Display info
+    text.addClass('label-success');
+    text.append('<u>Filename :</u> '+filename);
+    text.append('\n<u>Path :</u> '+path);
+    text.append('\n<u>Kind of analyse :</u> '+extensionOf(filename));
+    text.append('\n<u>Password required :</u> '+'YES');
+  } else {
+    // Display error
+    text.addClass('label-danger');
+    text.append('<u>ERROR</u> : This kind of file is not supported : only <b>.p12</b> or <b>.pem</b> is supported.\n');
+    text.append('\n<i>Filename :</i> '+filename);
+    text.append('\n<i>Path :</i> '+path);
+    text.append('\n<i>Kind of analyse :</i> '+'<i>Undeterminated</i>');
+    text.append('\n<i>Password required :</i> '+'<i>Unknown</i>');
+  }
+}
 
 //
 // UI Management
@@ -134,10 +212,15 @@ function resetUI() {
 }
 
 function displayCertificateResults(results) {
+  console.log(results);
+  g_certificate = results;
+
 
 }
 
 function displayProvisionningResults(results) {
+  g_provisionning = results;
+
   // Entitlements
   obj = results['Entitlements'];
   $list = $('#list-entitlements');
@@ -177,125 +260,9 @@ function displayProvisionningResults(results) {
   }
 }
 
-function displayResults(results) {
-  var $list;
-  var obj;
-  var text;
-
-  $('#panel-results').css('visibility', 'visible');
-}
-
 function analyseFailed(err) {
+  console.log('Error :', err);
   alert(err);
-}
-
-function manageProvisionningDropzone() {
-
-//    $provisionning_dropzone.ondrop = function (e) {
-//        e.preventDefault();
-//        resetUI();
-//        $(this).css('border-color', 'red');
-//
-//        // Get srcPath and filename
-//        var srcPath = e.dataTransfer.files[0].path;
-//        srcPath = srcPath.replace(/\\/g, '/');
-//        var filename = srcPath.split('/')[srcPath.split('/').length - 1];
-//        console.log('srcPath =', e.dataTransfer.files[0].path);
-//        console.log('filename =', filename);
-//
-//        // Check extension's file
-//        switch (extensionOf(filename)) {
-//            case 'ipa':
-//            case 'app':
-//            case 'mobileprovision':
-//                break;
-//            default:
-//                return false;
-//        }
-//
-//
-//        // Create tmp directory which should be unique
-//        if (!fs.existsSync(process.cwd() + '/../tmp/')) {
-//            fs.mkdirSync(process.cwd() + '/../tmp/');
-//        }
-//        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
-//        fs.mkdirSync(tmpDir);
-//
-//        // Copy file in tmpDir
-//        var targetPath = tmpDir + '/' + filename;
-//        console.log('targetPath =', targetPath);
-//
-//        fs.copy(srcPath, targetPath, function (err) {
-//            if (err) { return analyseFailed('Error while copying :' + err); }
-//            extractProvisionning(filename, targetPath, tmpDir,
-//                function (err, provisionningPath) {
-//                    if (err) { return analyseFailed(err); }
-//                    analyseProvisionning(provisionningPath);
-//                });
-//        });
-//    }
-//
-//    $provisionning_dropzone.ondragenter = function (e) {
-//        $(this).css('border-color', 'yellow');
-//    }
-//
-//    $provisionning_dropzone.ondragleave = function (e) {
-//        $(this).css('border-color', 'red');
-//    }
-}
-
-function manageCertificateDropzone() {
-//    var $certif_dropzone = $('#certif_dropzone')[0];
-//
-//    $certif_dropzone.ondrop = function (e) {
-//        e.preventDefault();
-//        $(this).css('border-color', 'red');
-//
-//        // Get srcPath and filename
-//        var srcPath = e.dataTransfer.files[0].path;
-//        srcPath = srcPath.replace(/\\/g, "/");
-//        var filename = srcPath.split('/')[srcPath.split('/').length - 1];
-//        console.log('srcPath =', e.dataTransfer.files[0].path);
-//        console.log('filename =', filename);
-//
-//        // Check extension's file
-//        switch (extensionOf(filename)) {
-//            case 'p12':
-//            case 'pem':
-//                break;
-//            default:
-//                return analyseFailed('Bad extension file');
-//        }
-//
-//        // Create tmp directory which should be unique
-//        if (!fs.existsSync(process.cwd() + '/../tmp/')) {
-//            fs.mkdirSync(process.cwd() + '/../tmp/');
-//        }
-//        var tmpDir = process.cwd() + '/../tmp/' + new Date().getTime() + Math.random();
-//        fs.mkdirSync(tmpDir);
-//
-//        // Copy file in tmpDir
-//        var targetPath = tmpDir + '/' + filename;
-//        console.log('targetPath =', targetPath);
-//
-//        fs.copy(srcPath, targetPath, function (err) {
-//            if (err) { return analyseFailed('Error while copying ' + filename + ' : ' + err); }
-//            extractCertificate(filename, targetPath, function(err, pemPath) {
-//                return analyseCertificate(pemPath, function (err, certArr) {
-//                   displayCertificateResults(certArr);
-//                });
-//            });
-//        });
-//    }
-//    $certif_dropzone.ondragenter = function (e) {
-//        $(this).css('border-color', 'yellow');
-//        if (e.dataTransfer.files.length > 1) {
-//            alert('NO');
-//        }
-//    }
-//    $certif_dropzone.ondragleave = function (e) {
-//        $(this).css('border-color', 'red');
-//    }
 }
 
 //

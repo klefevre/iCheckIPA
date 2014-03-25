@@ -31,14 +31,10 @@ var http = require('http'),
   url = require('url'),
   AdmZip = require('adm-zip'),
   openssl = require('openssl-wrapper'),
-  plist = require('plist-with-patches'),
-  exec = require('child_process').exec;
+  plist = require('plist-with-patches');
 
 var win = gui.Window.get();
 win.showDevTools();
-
-function parseCertificate(target, callback) {
-}
 
 //
 // Provisionning management
@@ -47,95 +43,110 @@ function parseProvisionning(target, callback) {
 
   // Get srcPath and filename
   target = target.replace(/\\/g, '/');
-  var filename = target.split('/')[target.split('/').length - 1];
-  var extension = extensionOf(filename);
 
-  if (extension == 'ipa' || extension == 'zip') {
-    // IPA/ZIP
-    var zip = new AdmZip(target),
-      entries = zip.getEntries();
+  switch (extensionOf(target.split('/')[target.split('/').length - 1])) {
+    case 'ipa':
+    case 'zip':
+      var zip = new AdmZip(target),
+        entries = zip.getEntries();
 
-    for (var i = 0; i < entries.length; ++i) {
-      if (extensionOf(entries[i].entryName) === 'mobileprovision') {
-        return analyseProvisionning(target + '/' + entries[i], function (err, result) {
-          return callback(err, result);
-        });
-      }
-    }
-
-  } else if (extension == 'app') {
-    // App
-    fs.readdir(target, function (err, files) {
-      if (err) {
-        return callback('Error while reading .app : ' + err);
-      }
-
-      for (var i = 0; i < files.length; ++i) {
-        if (extensionOf(files[i]) === 'mobileprovision') {
-          return analyseProvisionning(target + '/' + files[i], function(err, result) {
+      for (var i = 0; i < entries.length; ++i) {
+        if (extensionOf(entries[i].entryName) === 'mobileprovision') {
+          return analyseProvisionning(target + '/' + entries[i], function (err, result) {
             return callback(err, result);
           });
         }
       }
-      return callback('No provisionning found in ' + filename, null);
-    });
+      break;
+    case 'app':
+      // App
+      fs.readdir(target, function (err, files) {
+        if (err) { return callback('Error while reading .app : ' + err); }
 
-  } else if (extension == 'mobileprovision') {
-    // Mobileprovision
-    return analyseProvisionning(target, function(err, result) {
-      return callback(err, result);
-    });
-
-  } else {
-    // Bad extension
-    return callback('Bad extension, only ipa, zip, app or mobileprovision accepted');
-
+        for (var i = 0; i < files.length; ++i) {
+          if (extensionOf(files[i]) === 'mobileprovision') {
+            return analyseProvisionning(target + '/' + files[i], function(err, result) {
+              return callback(err, result);
+            });
+          }
+        }
+        return callback('No provisionning found in ' + filename, null);
+      });
+      break;
+    case 'mobileprovision':
+      return analyseProvisionning(target, function(err, result) {
+        return callback(err, result);
+      });
+    default:
+      return callback('Bad extension, only ipa, zip, app or mobileprovision accepted');
   }
 }
 
 function analyseProvisionning(target, callback) {
-  console.info('----------------------------------');
-  console.info('Analysing provisionning at', target);
 
-  if (target === undefined || target === null) {
-    return callback('Analyse failed');
+  if (target === undefined || target === null) { return callback('Analyse failed'); }
+
+  // Determine output path by the current platform
+  var output;
+  if (os.platform() == 'win32') {
+    output = '%WinDir%\\Temp\\';
+  } else  {
+    output = '/tmp/';
   }
+  output += 'out.mobileprovision.txt';
 
-  openssl.exec('smime', {inform: 'DER', verify: true, in: target, out: '/tmp/out.pem'}, function(err, buffer) {
-    if (err && !buffer) {
-      return callback(err);
-    } else {
-      var result = plist.parseFileSync('/tmp/out.pem');
-      return callback(null, result);
+  // Decrypt mobileprovision
+  openssl.exec('smime', {
+    inform: 'DER',
+    verify: true,
+    noverify: true,
+    in: target,
+    out: output }, function(err, buffer) {
+    // Openssl write on stderr its results even if it's a success, and the wrapper interpret it as an error =/
+    if (err && err != 'Verification successful\n') { return callback(err); }
+    try {
+      console.log('here');
+      return callback(null, plist.parseFileSync(output));
+    } catch (e) {
+      return callback(e);
     }
-  });
-
-  return;
-
-  // TODO: Find a way to NOT use exec -> EVIL. Maybe we may achieve it using crypto, node-forge or something else ?
-  var child = exec('openssl smime -inform DER -verify -in ' + target, function (error, stdout, stderr) {
-    var result = null;
-    if (error == null) {
-      result = plist.parseStringSync(stdout);
-    }
-    callback(error, result);
   });
 }
 
 //
 // Certificate management
 //
+function parseCertificate(target, password, callback) {
+
+  // Get srcPath and filename
+  target = target.replace(/\\/g, '/');
+
+  switch (extensionOf(target.split('/')[target.split('/').length - 1])) {
+    case 'p12':
+      decryptCertificate(target, password, function (err, pemPath) {
+        if (err) { return callback(err); }
+        return analyseCertificate(pemPath, function (err, result) {
+          callback(err, result);
+        });
+      });
+      break;
+    case 'pem':
+      return analyseCertificate(target, function (err, result) {
+        callback(err, result);
+      });
+    default:
+      return callback('Bad extension, only p12 or pem are accepted');
+  }
+}
+
 function analyseCertificate(pemPath, callback) {
+
   fs.readFile(pemPath, 'utf8', function (err, data) {
     if (err) { return callback(err, null); }
 
-    console.log('- analyseCertificate --------------------');
-    console.log('pemPath =', pemPath);
-    console.log('data =', data);
-
     var BEGIN_CERTIF = '-----BEGIN CERTIFICATE-----',
-      END_CERTIF = '-----END CERTIFICATE-----',
-      certArr = substringBetweenStrings(data, BEGIN_CERTIF, END_CERTIF);
+        END_CERTIF = '-----END CERTIFICATE-----';
+    var certArr = substringBetweenStrings(data, BEGIN_CERTIF, END_CERTIF);
 
     // Trim all '\n'
     for (var i = 0; i < certArr.length; ++i) {
@@ -148,28 +159,27 @@ function analyseCertificate(pemPath, callback) {
 }
 
 function decryptCertificate(certifPath, password, callback) {
-  if (certifPath === undefined || certifPath === null) { return analyseFailed('Analyse failed'); }
-  if (password === undefined || password === null) { return analyseFailed('Password is required to decrypt a p12'); }
 
-  // TODO: Find a way to NOT use exec -> EVIL. Maybe we may achieve it using crypto, node-forge or something else ?
-  var child = exec('openssl pkcs12 -nodes -in ' + certifPath + ' -out ' + certifPath + '.pem' + ' -passin pass:' + password,
-    function (error, stdout, stderr) {
-      if (error) { return callback(error, null); }
-      return callback(null, certifPath + '.pem')
-    });
-}
+  if (certifPath === undefined || certifPath === null) { return callback('Analyse failed'); }
+  if (password === undefined || password === null) { return callback('Password is required to decrypt a p12'); }
 
-function extractCertificate(filename, targetPath, callback) {
-  // Check extension's file
-  switch (extensionOf(filename)) {
-    case 'p12':
-      decryptCertificate(targetPath, 'test', function(err, pemPath) {
-        return callback(err, pemPath);
-      });
-      break;
-    case 'pem':
-      return callback(null, targetPath);
-    default:
-      return analyseFailed('Bad extension file');
+  // Determine output path by platform
+  var output;
+  if (/win/.test(os.platform())) {
+    output = '%WinDir%\\Temp\\';
+  } else  {
+    output = '/tmp/';
   }
+  output += 'out.pem';
+
+  // TODO: Find a better way to decrypt the file without openssl dependency
+  openssl.exec('pkcs12', {
+    nodes: true,
+    passin: 'pass:'+password,
+    in: certifPath,
+    out: output }, function(err, buffer) {
+    // Openssl write on stderr its results even if it's a success, and the wrapper interpret it as an error =/
+    if (err && err != 'MAC verified OK\n') { return callback(err); }
+      return callback(null, output);
+  });
 }
