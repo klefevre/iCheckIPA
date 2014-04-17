@@ -1,14 +1,14 @@
 {
   "name": "iCheckIPA",
   "version": "0.0.1",
-  "description": "",
+  "description": "iCheckIPA is a tool which test provisionning",
   "keywords": [],
   
     "homepage": "https://github.com/klefevre/iCheckIPA",
     "bugs": "https://github.com/klefevre/iCheckIPA/issues",
     "author": {
       "name": "Kevin Lefevre",
-      "email": "",
+      "email": "contact@kevinlefevre.com",
       "url": "https://github.com/klefevre"
     },
     "repository": {
