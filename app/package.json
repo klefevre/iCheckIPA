@@ -11,9 +11,17 @@
 		"width" : 768,
         "height" : 685,
         "min_width" : 320
-//		"min_height" : 685,
-//		"max_width" : 768,
-//		"max_height" : 685
-	},
-    "chromium-args": "--child-clean-exit"
+    },
+    "chromium-args": "--child-clean-exit",
+
+"dependencies": {},
+  "devDependencies": {
+    "fs-extra": "~0.8.1",
+    "plist": "~0.4.3",
+    "adm-zip": "~0.4.4",
+    "rimraf": "~2.2.6"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
 }

@@ -1,162 +1,75 @@
-/* Generic styles */
+/**
+ * (The MIT License)
+ *
+ * Copyright (c) 2014 Kevin Lefevre <contact@kevinlefevre.com>
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated
+ * documentation files (the 'Software'), to deal in the Software
+ * without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice
+ * shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 html {
 	-webkit-user-select:none;	
 }
 
 body {
-	background-color:#333;
-	color:#FFF;
-	font-family:sans-serif;
+	color:#fff;
 	padding:0; margin:0;
-	/*background-image:url('img/txture.png');*/
-}
-/* Header Styles */
-
-header {
-	background-color: #111;
-	padding: 0px 20px 0px 20px;
-	height: 55px;
-	border-bottom: solid 2px #000;
-	box-shadow: 0px 0px 120px 20px #000;
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	z-index: 0;
-	-webkit-app-region: drag;
+    background-color:#2b3e50;
+    /*background-image:url('../images/txture.png');*/
 }
 
-header h1 {
-    float:left;
-    line-height: 13px;
+.navbar {
+    margin-bottom: 0 !important;
 }
 
-header ul {
-    right: -20px;
-    list-style:none;
-    float: right;
-    font-size: 43px;
-    position:relative;
-    top:-45px;
+.left, .right {
+    float: left;
+    width: 50%;
 }
 
-header ul li:first-child {
-    border-left:none;
+.left {
+    padding-right: 10px;
 }
 
-header ul li:last-child {
-    border-right:none;
+.right {
+    padding-left: 10px;
 }
 
-header ul li {
-    float:left;
-    border-left:solid 1px #000;
-    border-right:solid 1px #222;
-    padding: 8px 10px 5px 10px;   
-}
-
-header ul li:hover {
-    background-color:#000;
-}
-
-header ul li i {
-	pointer-events:none;
-}
-
-/* Section styles */
-
-#dropzone {
+.dropzone {
+    border:dashed 4px red;
+    height: 150px;
+    padding: 20px;
     margin-bottom: 10px;
 }
 
-/*section {*/
-	/*margin:20px;*/
-	/*margin-top:80px;*/
-    /*margin-bottom:0px;*/
-    /**/
-	/*height: 300px;*/
-	/*position: relative;*/
-	/*z-index: 1;*/
-/*}*/
+    .dropzone.hover {
+        border-color: yellow;
+    }
 
-section h1, h2, h3, h4 {
-    text-align: left;
-}
-
-section div#panel {
-	background-color:#222;
-	border:solid 2px #111;
-	border-radius:3px;	
-	padding:1px 20px 1px 20px
-}
-
-section div#panel ul {
-    padding-left:0px;
-    list-style:none;
-}
-
-section div#panel ul li {
-    margin-bottom: 5px;
-    margin-top:15px;
-}
-
-section div#panel ul sup {
-    color:#666;
-}
-
-section#results {
-    float: left;
-    background-color: orange;
-}
-
-section#results ul {
-    list-style: none;
-    margin: 0; padding: 0;
-}
-
-.show-grid [class^=col-] {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #eee;
-    background-color: rgba(86,61,124,.15);
-    border: 1px solid #ddd;
-}
-
-section.dropzone {
-    border:dashed 4px red;
-    /*border-radius:4px;*/
-    /*width: 200px;*/
-    /*float: left;*/
-}
-
-section.dropzone div.drop_message {
-	font-size:12px;
-	text-align:center;
-	/*width:240px;*/
-	margin: 136px auto 0 auto;
-	color: #666;
-	/*text-shadow: 0px -1px 0px #000;*/
-}
-
-/* Alert styles */
-
-div#alert {
-    background-color:#7F0000;
-    border-bottom:solid 4px #4C0000;
-    border-left:solid 2px #4C0000 !important;
-    border-right:solid 2px #4C0000 !important;
-    border-top:none;
-    border-bottom-left-radius:10px;
-    text-align:center;
-    border-bottom-right-radius:10px;
-    height:20px;
-    position:absolute;
-    width:300px;
-    top:57px;
-    padding:5px;
-    z-index:2;
-    left:50%;
-    margin-left:-150px;
-    display:none;
-}
+    .dropzone .label {
+        font-size: 85%;
+        display: inline-block;
+        width: 100%;
+        word-wrap: break-word;
+        white-space:pre;
+        border: 1px solid #fff;
+        line-height: normal;
+        text-align: left;
+    }

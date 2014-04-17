@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('grunt-node-webkit-builder');
 
     // configurable paths
     var config = {
@@ -17,6 +18,16 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         config: config,
+        nodewebkit: {
+            options: {
+                build_dir: './webkitbuilds', // Where the build version of my node-webkit app is saved
+                mac: true, // We want to build it for mac
+                win: true, // We want to build it for win
+                linux32: false, // We don't need linux32
+                linux64: false // We don't need linux64
+            },
+            src: ['./app/**'] // Your node-wekit app
+	},
         clean: {
             dist: {
                 files: [{
@@ -172,6 +183,10 @@ module.exports = function(grunt) {
             encoding: 'UTF8'
         });
     });
+
+    grunt.registerTask('build-me-that', [
+	   'nodewebkit'
+    ]);
 
     grunt.registerTask('dist-linux', [
         'jshint',

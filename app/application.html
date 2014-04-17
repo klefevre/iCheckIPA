@@ -6,7 +6,6 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="fonts/fontawesome.css" ret="stylesheet">
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" ret="stylesheet">
     <script type="text/javascript">
         window.ondragover = function(e) { e.preventDefault(); return false };
         window.ondrop = function(e) { e.preventDefault(); return false };
@@ -27,139 +26,133 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#settings" data-toggle="modal"><img src="images/icon_settings.png" alt="Settings" width="37" height="40"></a></li>
+                <li><a href="#settings" data-toggle="modal"><img src="images/icon_settings.png" alt="Settings" width="22" height="25"></a></li>
             </ul>
         </div>
     </div>
 </div>
+<!-- NAV TABS -->
+<ul id="tabs-results" class="nav nav-tabs">
+    <li class="active"><a href="#dropzone">Provisionning/Certificate</a></li>
+    <li class="disabled"><a href="#resume">Resume</a></li>
+    <li class="disabled"><a href="#udid">UDID</a></li>
+    <li class="disabled"><a href="#raw">Raw</a></li>
+    <li class="disabled"><a href="#plist">Plist</a></li>
+</ul>
 
-<!-- CONTENT -->
-<div class="container-fluid">
-    <div class="row show-grid">
-        <div class="col-xs-5">
-            <section id="dropzone" class="dropzone">
-                <div class="drop_message">Drop your ipa, app or provisionning here</div>
-            </section>
-            <section id="certif_dropzone" class="dropzone">
-                <div class="drop_message">Drop your certificate here</div>
-            </section>
+<!-- TAB PANES -->
+<div class="tab-content">
+
+    <div class="tab-pane active" id="dropzone">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="left">
+                    <div id="prov_dropzone" class="dropzone">
+                        <span class="label label-info">Drag your <i>.ipa</i>, <i>.zip</i>, </i><i>.app</i> or <i>.mobileprovision</i> here</span>
+                    </div>
+                </div>
+                <div class="right">
+                    <div id="cert_dropzone" class="dropzone">
+                        <span class="label label-info">Drag your <i>.p12</i> or <i>.pem</i> here</span>
+                    </div>
+                            <div class="form-group">
+                                <input id="password-input" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                    <button id="start-analyse-button" type="button" class="btn btn-default pull-right disable">
+                        <span class="glyphicon glyphicon-play"></span> Analyse
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-7">
+    </div>
 
-            <!-- NAV TABS -->
-            <ul id="tabs-results" class="nav nav-tabs">
-                <li class="active"><a href="#resume">Resume</a></li>
-                <li><a href="#udid">UDID</a></li>
-                <li><a href="#raw">Raw</a></li>
+        <!-- RESUME PANE -->
+        <div class="tab-pane" id="resume">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul id="list-entitlements" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- UDID PANE -->
+        <div class="tab-pane" id="udid">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul id="list-udid" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- RAW PANE -->
+        <div class="tab-pane" id="raw">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul id="list-raw" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- RAW PANE -->
+        <div class="tab-pane" id="plist">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul id="list-raw" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Settings</h4>
+                </div>
+                <div class="modal-body">
+
+                    <h4>Cache</h4>
+                    <button id="button-settings-delete-cache" type="button" class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="right" data-content="Your cache has been deleted.">
+                        <span class="glyphicon glyphicon-trash"></span> Delete cache
+                    </button>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="button-settings-save" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section style="display:none" id="connection">
+        <h3>Options - Dropzone</h3>
+
+        <div id="panel">
+            <ul>
+                <li>Port : <input id="port_setting" type="text"/></li>
+                <sup>If the port is =< 1024, root or admin permissions are required to run this program.</sup>
+                <li>Dropzone name : <input id="name_setting" type="text"/></li>
+                <sup>This name will be shown to your friends. (e.g Shawn's Dropzone)</sup>
+                <br>
+                <input type="button" value="Save" onclick="extractSettings()"><input type="button" value="Restart Server" onclick="restart_server()" />
             </ul>
-
-            <!-- TAB PANES -->
-            <div class="tab-content">
-
-                <!-- RESUME PANE -->
-                <div class="tab-pane active" id="resume">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-entitlements" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- UDID PANE -->
-                <div class="tab-pane" id="udid">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-udid" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RAW PANE -->
-                <div class="tab-pane" id="raw">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <ul id="list-raw" class="list-group">
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                                <li class="list-group-item">blablablabla</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<!-- MODAL -->
-<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Settings</h4>
-            </div>
-            <div class="modal-body">
-
-                <h4>UDID</h4>
-                <div id="input-group-udid" class="input-group">
-                    <span class="input-group-btn">
-                        <button id="button-add-row-0" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                    </span>
-                    <input type="text" class="form-control" placeholder="UDID">
-                    <span class="input-group-btn">
-                         <button id="button-del-row-0" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span></button>
-                    </span>
-                </div>
-
-                <h4>Cache</h4>
-                <button id="button-settings-delete-cache" type="button" class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="right" data-content="Your cache has been deleted.">
-                    <span class="glyphicon glyphicon-trash"></span> Delete cache
-                </button>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="button-settings-save" type="button" class="btn btn-primary">Save changes</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<section style="display:none" id="connection">
-    <h3>Options - Dropzone</h3>
-
-    <div id="panel">
-        <ul>
-            <li>Port : <input id="port_setting" type="text"/></li>
-            <sup>If the port is =< 1024, root or admin permissions are required to run this program.</sup>
-            <li>Dropzone name : <input id="name_setting" type="text"/></li>
-            <sup>This name will be shown to your friends. (e.g Shawn's Dropzone)</sup>
-            <br>
-            <input type="button" value="Save" onclick="extractSettings()"><input type="button" value="Restart Server" onclick="restart_server()" />
-        </ul>
-    </div>
-</section>
-
-<!-- SCRIPTS -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="js/frontend.js"></script>
-<script src="js/backend.js"></script>
+    <!-- SCRIPTS -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/frontend.js"></script>
+    <script src="js/backend.js"></script>
 </body>
 </html>
