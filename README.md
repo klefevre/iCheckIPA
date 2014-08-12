@@ -7,7 +7,7 @@ iCheckIPA is a tool who check an iOS provisionning profile
 - Check IPA, APP and .mobileprovision files
 
 ## Compile
-To install depencies : `npm install && bower install`.
+To install dependencies : `npm install && bower install`.
 Then : `nw app`
 
 ## Contact
